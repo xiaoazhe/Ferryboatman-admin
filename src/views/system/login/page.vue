@@ -125,6 +125,8 @@
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
+import { ADMIN_LOGIN } from '@/api/modules/login.js'
+import Cookies from 'js-cookie'
 export default {
   mixins: [
     localeMixin
@@ -213,6 +215,28 @@ export default {
      */
     // 提交登录信息
     submit () {
+      // ADMIN_LOGIN(this.formLogin.username, this.formLogin.password).then((res) => {
+      //   if (res.msg != null) {
+      //     this.$message({
+      //       message: res.msg,
+      //       type: 'error'
+      //     })
+      //   } else {
+      //     Cookies.set('token', res.token) // 放置token到Cookie
+      //     sessionStorage.setItem('user', this.formLogin.username) // 保存用户到本地会话
+      //     // this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
+      //     // this.$router.push('/')  // 登录成功，跳转到主页
+      //     this.$router.push('/index')
+      //     this.$router.push({name:'index'})
+      //     this.$router.push({path:'/index'})
+      //   }
+      //   this.loading = false
+      // }).catch((res) => {
+      //   this.$message({
+      //     message: res.message,
+      //     type: 'error'
+      //   })
+      // })
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
