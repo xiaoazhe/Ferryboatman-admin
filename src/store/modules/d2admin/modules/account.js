@@ -25,9 +25,10 @@ export default {
       console.log(res)
       // util.cookies.set('uuid', res.uuid)
       util.cookies.set('token', res.token)
-      sessionStorage.setItem('user', usernamet) // 保存用户到本地会话
+      sessionStorage.setItem('user', username) // 保存用户到本地会话
+      dispatch('d2admin/app/menuRouteLoaded', false) // 要求重新加载导航菜单
       // 设置 vuex 用户信息
-      // await dispatch('d2admin/user/set', { name: res.name }, { root: true })
+      await dispatch('d2admin/user/set', { name: res.name }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置
       await dispatch('load')
     },
