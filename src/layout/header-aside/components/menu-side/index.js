@@ -2,7 +2,6 @@ import { mapState } from 'vuex'
 import menuMixin from '../mixin/menu'
 import { createMenu } from '../libs/util.menu'
 import BScroll from 'better-scroll'
-
 export default {
   name: 'd2-layout-header-aside-menu-side',
   mixins: [
@@ -57,7 +56,14 @@ export default {
   beforeDestroy () {
     this.scrollDestroy()
   },
+  created(){
+    this.getm()
+  },
   methods: {
+    getm(){
+      // 设置侧边栏菜单
+      // this.$store.commit('d2admin/menu/asideSet', menuAside)
+    },
     scrollInit () {
       this.BS = new BScroll(this.$el, {
         mouseWheel: true,

@@ -4,10 +4,8 @@ import VueRouter from 'vue-router'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
 import store from '@/store/index'
 import util from '@/libs/util.js'
-
 // 路由数据
 import routes from './routes'
 import { getIFramePath, getIFrameUrl } from '@/libs/iframe'
@@ -70,7 +68,6 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach(to => {
-  console.log('==')
   // 进度条
   NProgress.done()
   // 多页控制 打开新的页面
@@ -93,7 +90,6 @@ function addDynamicMenuAndRoutes(userName, to, from) {
   // }
   MENU_FIND_NAV_TREE({'userName':userName})
   .then(res => {
-    console.log(res)
     // 添加动态路由
     let dynamicRoutes = addDynamicRoutes(res)
     // 处理静态组件绑定路由
@@ -103,6 +99,8 @@ function addDynamicMenuAndRoutes(userName, to, from) {
     // store.commit('menuRouteLoaded', true)
     // // 保存菜单树
     // store.commit('setNavTree', res.data)
+    store.commit('d2admin/menu/asideSet', res)
+    console.log('4')
   }).then(res => {
     api.user.findPermissions({'name':userName}).then(res => {
       // 保存用户权限标识集合
@@ -172,16 +170,19 @@ function addDynamicRoutes (menuList = [], routes = []) {
              url += array[i].substring(0,1).toUpperCase() + array[i].substring(1) + '/'
           }
           url = url.substring(0, url.length - 1)
+ 
           route['component'] = resolve => require([`@/views/${url}`], resolve)
         } catch (e) {}
       }
+      
+      // this.$router.addRoutes(routes)
       routes.push(route)
     }
   }
   if (temp.length >= 1) {
     addDynamicRoutes(temp, routes)
   } else {
-    console.log(routes)
+    // console.log(routes)
     console.log('动态路由加载完成.')
   }
   return routes
