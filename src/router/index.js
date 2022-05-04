@@ -13,11 +13,11 @@ import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (location) {
+VueRouter.prototype.push = function push(location) {
   return VueRouterPush.call(this, location).catch(err => err)
 }
 const VueRouterReplace = VueRouter.prototype.replace
-VueRouter.prototype.replace = function replace (location) {
+VueRouter.prototype.replace = function replace(location) {
   return VueRouterReplace.call(this, location).catch(err => err)
 }
 
@@ -88,27 +88,31 @@ function addDynamicMenuAndRoutes(userName, to, from) {
   //   // console.log('动态菜单和路由已经存在.')
   //   return
   // }
-  MENU_FIND_NAV_TREE({'userName':userName})
-  .then(res => {
-    // 添加动态路由
-    let dynamicRoutes = addDynamicRoutes(res)
-    // 处理静态组件绑定路由
-    router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
-    router.addRoutes(router.options.routes)
-    // 保存加载状态
-    // store.commit('menuRouteLoaded', true)
-    // // 保存菜单树
-    // store.commit('setNavTree', res.data)
-    store.commit('d2admin/menu/asideSet', res)
-    console.log('4')
-  }).then(res => {
-    api.user.findPermissions({'name':userName}).then(res => {
-      // 保存用户权限标识集合
-      store.commit('setPerms', res)
+  MENU_FIND_NAV_TREE({ 'userName': userName })
+    .then(res => {
+      // 添加动态路由
+      console.log(gitMenuList(res));
+      console.log('res', res);
+      let dynamicRoutes = addDynamicRoutes(res)
+      // 处理静态组件绑定路由
+      router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
+      router.addRoutes(router.options.routes)
+      // 保存加载状态
+      // store.commit('menuRouteLoaded', true)
+      // // 保存菜单树
+      // store.commit('setNavTree', res.data)
+      //  store.commit('d2admin/menu/asideSet', res)
+      store.commit('d2admin/menu/asideSet', gitMenuList(res))
+
+      console.log('4')
+    }).then(res => {
+      api.user.findPermissions({ 'name': userName }).then(res => {
+        // 保存用户权限标识集合
+        store.commit('setPerms', res)
+      })
     })
-  })
-  .catch(function(res) {
-  })
+    .catch(function (res) {
+    })
 }
 
 /**
@@ -133,48 +137,48 @@ function addDynamicMenuAndRoutes(userName, to, from) {
 * @param {*} menuList 菜单列表
 * @param {*} routes 递归创建的动态(菜单)路由
 */
-function addDynamicRoutes (menuList = [], routes = []) {
+function addDynamicRoutes(menuList = [], routes = []) {
   var temp = []
   for (var i = 0; i < menuList.length; i++) {
     if (menuList[i].children && menuList[i].children.length >= 1) {
       temp = temp.concat(menuList[i].children)
     } else if (menuList[i].url && /\S/.test(menuList[i].url)) {
-       menuList[i].url = menuList[i].url.replace(/^\//, '')
-       // 创建路由配置
-       var route = {
-         path: menuList[i].url,
-         component: null,
-         name: menuList[i].name,
-         meta: {
-           icon: menuList[i].icon,
-           index: menuList[i].id,
-           auth: true
-         }
-       }
-       let path = getIFramePath(menuList[i].url)
-       if (path) {
-         // 如果是嵌套页面, 通过iframe展示
-         route['path'] = path
+      menuList[i].url = menuList[i].url.replace(/^\//, '')
+      // 创建路由配置
+      var route = {
+        path: menuList[i].url,
+        component: null,
+        name: menuList[i].name,
+        meta: {
+          icon: menuList[i].icon,
+          index: menuList[i].id,
+          auth: true
+        }
+      }
+      let path = getIFramePath(menuList[i].url)
+      if (path) {
+        // 如果是嵌套页面, 通过iframe展示
+        route['path'] = path
         //  route['component'] = resolve => require([`@/views/IFrame/IFrame`], resolve)
-         // 存储嵌套页面路由路径和访问URL
-         let url = getIFrameUrl(menuList[i].url)
-         let iFrameUrl = {'path':path, 'url':url}
+        // 存储嵌套页面路由路径和访问URL
+        let url = getIFrameUrl(menuList[i].url)
+        let iFrameUrl = { 'path': path, 'url': url }
         //  store.commit('addIFrameUrl', iFrameUrl)
-       } else {
+      } else {
         try {
           // 根据菜单URL动态加载vue组件，这里要求vue组件须按照url路径存储
           // 如url="sys/user"，则组件路径应是"@/views/sys/user.vue",否则组件加载不到
           let array = menuList[i].url.split('/')
           let url = ''
-          for(let i=0; i<array.length; i++) {
-             url += array[i].substring(0,1).toUpperCase() + array[i].substring(1) + '/'
+          for (let i = 0; i < array.length; i++) {
+            url += array[i].substring(0, 1).toUpperCase() + array[i].substring(1) + '/'
           }
           url = url.substring(0, url.length - 1)
- 
+
           route['component'] = resolve => require([`@/views/${url}`], resolve)
-        } catch (e) {}
+        } catch (e) { }
       }
-      
+
       // this.$router.addRoutes(routes)
       routes.push(route)
     }
@@ -182,8 +186,22 @@ function addDynamicRoutes (menuList = [], routes = []) {
   if (temp.length >= 1) {
     addDynamicRoutes(temp, routes)
   } else {
-    // console.log(routes)
+    console.log(routes)
     console.log('动态路由加载完成.')
   }
   return routes
- }
+}
+
+function gitMenuList(newMenu, targetMenu = []) {
+  if (!newMenu) return
+  newMenu.forEach((v, i) => {
+    const obj = {
+      path: v.url,
+      title: v.name,
+    }
+    if (v.icon) obj.icon = v.icon
+    if (Object.values(v.children).length > 0) obj.children = gitMenuList(v.children)
+    targetMenu.push(obj)
+  })
+  return targetMenu
+}
