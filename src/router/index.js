@@ -10,6 +10,7 @@ import util from '@/libs/util.js'
 import routes from './routes'
 import { getIFramePath, getIFrameUrl } from '@/libs/iframe'
 import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
+const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -90,9 +91,8 @@ function addDynamicMenuAndRoutes(userName, to, from) {
   // }
   MENU_FIND_NAV_TREE({ 'userName': userName })
     .then(res => {
+      console.log('111', res);
       // 添加动态路由
-      console.log(gitMenuList(res));
-      console.log('res', res);
       let dynamicRoutes = addDynamicRoutes(res)
       // 处理静态组件绑定路由
       router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
@@ -101,10 +101,8 @@ function addDynamicMenuAndRoutes(userName, to, from) {
       // store.commit('menuRouteLoaded', true)
       // // 保存菜单树
       // store.commit('setNavTree', res.data)
-      //  store.commit('d2admin/menu/asideSet', res)
+      console.log(gitMenuList(res));
       store.commit('d2admin/menu/asideSet', gitMenuList(res))
-
-      console.log('4')
     }).then(res => {
       api.user.findPermissions({ 'name': userName }).then(res => {
         // 保存用户权限标识集合
@@ -174,8 +172,8 @@ function addDynamicRoutes(menuList = [], routes = []) {
             url += array[i].substring(0, 1).toUpperCase() + array[i].substring(1) + '/'
           }
           url = url.substring(0, url.length - 1)
-
           route['component'] = resolve => require([`@/views/${url}`], resolve)
+          route['component'] = _import(url)
         } catch (e) { }
       }
 
@@ -189,15 +187,19 @@ function addDynamicRoutes(menuList = [], routes = []) {
     console.log(routes)
     console.log('动态路由加载完成.')
   }
+  console.log(routes);
   return routes
 }
 
+/*
+侧边栏menu过滤器
+*/
 function gitMenuList(newMenu, targetMenu = []) {
   if (!newMenu) return
   newMenu.forEach((v, i) => {
     const obj = {
-      path: v.url,
       title: v.name,
+      path: v.url
     }
     if (v.icon) obj.icon = v.icon
     if (Object.values(v.children).length > 0) obj.children = gitMenuList(v.children)
