@@ -5,6 +5,6 @@ export function MENU_FIND_NAV_TREE(params) {
   return request({
     url: '/menu/findNavTree',
     method: 'get',
-    data: params
+    params
   })
 }
