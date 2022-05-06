@@ -11,7 +11,7 @@ import routes from './routes'
 import { getIFramePath, getIFrameUrl } from '@/libs/iframe'
 import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
-
+import { FIND_PERMISSIONS } from '@/api/modules/user.js'
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -85,29 +85,29 @@ export default router
 function addDynamicMenuAndRoutes(userName, to, from) {
   // 处理IFrame嵌套页面
   // handleIFrameUrl(to.path)
-  // if(store.state.app.menuRouteLoaded) {
-  //   // console.log('动态菜单和路由已经存在.')
-  //   return
-  // }
+  if(store.state.app.menuRouteLoaded) {
+    console.log('动态菜单和路由已经存在.')
+    return
+  }
   MENU_FIND_NAV_TREE({ 'userName': userName })
     .then(res => {
-      console.log('111', res);
       // 添加动态路由
       let dynamicRoutes = addDynamicRoutes(res)
       // 处理静态组件绑定路由
       router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
       router.addRoutes(router.options.routes)
       // 保存加载状态
-      // store.commit('menuRouteLoaded', true)
+      store.commit('menuRouteLoaded', true)
       // // 保存菜单树
       // store.commit('setNavTree', res.data)
-      console.log(gitMenuList(res));
-      store.commit('d2admin/menu/asideSet', gitMenuList(res))
-    }).then(res => {
-      api.user.findPermissions({ 'name': userName }).then(res => {
+      FIND_PERMISSIONS({ 'name': userName }).then(res => {
         // 保存用户权限标识集合
         store.commit('setPerms', res)
       })
+      store.commit('d2admin/menu/asideSet', gitMenuList(res))
+      
+    }).then(res => {
+      
     })
     .catch(function (res) {
     })

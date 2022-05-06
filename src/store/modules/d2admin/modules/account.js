@@ -2,6 +2,7 @@ import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
 import { ADMIN_LOGIN } from '@/api/modules/login.js'
+import store from '@/store/index'
 export default {
   namespaced: true,
   actions: {
@@ -26,7 +27,7 @@ export default {
       // util.cookies.set('uuid', res.uuid)
       util.cookies.set('token', res.token)
       sessionStorage.setItem('user', username) // 保存用户到本地会话
-      dispatch('d2admin/app/menuRouteLoaded', false) // 要求重新加载导航菜单
+      store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.name }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置

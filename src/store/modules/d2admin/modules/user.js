@@ -1,10 +1,15 @@
 export default {
   namespaced: true,
   state: {
+    perms: [],
     // 用户信息
     info: {}
   },
   actions: {
+    setPerms(state, perms){  // 用户权限标识集合
+      console.log('2222222222222222222222222222222222222222222222222222222')
+      state.perms = perms;
+    },
     /**
      * @description 设置用户数据
      * @param {Object} context
