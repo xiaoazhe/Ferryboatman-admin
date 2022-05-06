@@ -15,14 +15,14 @@ export default {
               vm
             }
           })
-          if (process.env.NODE_ENV !== 'development') return
-          util.log.capsule('D2Admin', 'ErrorHandler', logType)
-          util.log.danger('>>>>>> 错误信息 >>>>>>')
-          console.log(info)
-          util.log.danger('>>>>>> Vue 实例 >>>>>>')
-          console.log(vm)
-          util.log.danger('>>>>>> Error >>>>>>')
-          console.log(error)
+          // if (process.env.NODE_ENV !== 'development') return
+          // util.log.capsule('D2Admin', 'ErrorHandler', logType)
+          // util.log.danger('>>>>>> 错误信息 >>>>>>')
+          // console.log(info)
+          // util.log.danger('>>>>>> Vue 实例 >>>>>>')
+          // console.log(vm)
+          // util.log.danger('>>>>>> Error >>>>>>')
+          // console.log(error)
         })
       }
     }
