@@ -160,6 +160,9 @@ export default {
         })
       } else {
         // 页面以前没有打开过
+        // for(let i = 0;i<30;i++) {
+        //   console.log(state.pool[i])
+        // }
         const page = state.pool.find(t => t.name === name)
         // 如果这里没有找到 page 代表这个路由虽然在框架内 但是不参与标签页显示
         if (page) {

@@ -29,20 +29,66 @@ const frameIn = [
         },
         component: _import('system/log')
       },
+       // 演示页面
+       {
+        path: 'page1',
+        name: 'page1',
+        meta: {
+          title: '页面 1',
+          auth: true
+        },
+        component: _import('demo/page1')
+      },
+      {
+        path: 'page2',
+        name: 'page2',
+        meta: {
+          title: '页面 2',
+          auth: true
+        },
+        component: _import('demo/page2')
+      },
+      {
+        path: 'page3',
+        name: 'page3',
+        meta: {
+          title: '页面 3',
+          auth: true
+        },
+        component: _import('demo/page3')
+      },
+      {
+        path: 'page4',
+        name: 'page4',
+        meta: {
+          title: '页面 user',
+          auth: true
+        },
+        component: _import('sys/user')
+      },
+      {
+        path: 'page5',
+        name: 'page5',
+        meta: {
+          title: '页面 5',
+          auth: true
+        },
+        component: _import('sys/menu')
+      },
       // 刷新页面 必须保留
-      // {
-      //   path: 'refresh',
-      //   name: 'refresh',
-      //   hidden: true,
-      //   component: _import('system/function/refresh')
-      // },
-      // // 页面重定向 必须保留
-      // {
-      //   path: 'redirect/:route*',
-      //   name: 'redirect',
-      //   hidden: true,
-      //   component: _import('system/function/redirect')
-      // }
+      {
+        path: 'refresh',
+        name: 'refresh',
+        hidden: true,
+        component: _import('system/function/refresh')
+      },
+      // 页面重定向 必须保留
+      {
+        path: 'redirect/:route*',
+        name: 'redirect',
+        hidden: true,
+        component: _import('system/function/redirect')
+      }
     ]
   }
 ]

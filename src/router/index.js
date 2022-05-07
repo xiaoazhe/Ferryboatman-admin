@@ -12,6 +12,8 @@ import { getIFramePath, getIFrameUrl } from '@/libs/iframe'
 import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 import { FIND_PERMISSIONS } from '@/api/modules/user.js'
+import { frameInRoutes } from './routes'
+
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -43,7 +45,6 @@ router.beforeEach(async (to, from, next) => {
 
   let example = "/sys/sys/"
   let ourSubstring = to.path
-  console.log(example +'sssssssssss'+ourSubstring)
   if (ourSubstring.indexOf(example) != -1) {
     ourSubstring = ourSubstring.replace('/sys/sys/', '/sys/')
     router.push({path: ourSubstring})
@@ -85,9 +86,10 @@ router.afterEach(to => {
   // 进度条
   NProgress.done()
   // 多页控制 打开新的页面
+  console.log(to)
   store.dispatch('d2admin/page/open', to)
   // 更改标题
-  util.title(to.meta.title)
+  util.title(to.name)
 })
 
 export default router
@@ -109,6 +111,8 @@ function addDynamicMenuAndRoutes(userName, to, from) {
       // 处理静态组件绑定路由
       router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
       router.addRoutes(router.options.routes)
+
+
       // 保存加载状态
       store.commit('menuRouteLoaded', true)
       // // 保存菜单树
@@ -142,13 +146,27 @@ function addDynamicRoutes(menuList = [], routes = []) {
       // 创建路由配置
       var route = {
         path: i.url,
-        component:  resolve => require([`@/views/${i.url}`], resolve),
+        component: resolve => require([`@/views/${i.url}`], resolve),
         name: i.name,
         meta: {
           icon: i.icon,
-          index: i.id
+          index: i.id,
+          title: i.name,
+          auth: true
         }
       }
+      var frameInRout = {
+          path: i.url,
+          name: i.name,
+          meta: {
+            title: i.name,
+            auth: true
+          },
+          component:  resolve => require([`@/views/${i.url}`], resolve),
+      }
+      // 顶部菜单路由
+      frameInRoutes[0].children.push(frameInRout)
+      
       let path = getIFramePath(i.url)
       if (path) {
         // 如果是嵌套页面, 通过iframe展示
@@ -171,6 +189,7 @@ function addDynamicRoutes(menuList = [], routes = []) {
   if (temp.length >= 1) {
     addDynamicRoutes(temp, routes)
   } else {
+    store.commit('d2admin/page/init', frameInRoutes)
     console.log('动态路由加载完成.')
   }
   return routes
