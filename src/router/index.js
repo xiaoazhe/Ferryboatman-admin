@@ -40,32 +40,45 @@ router.beforeEach(async (to, from, next) => {
   await store.dispatch('d2admin/size/isLoaded')
   // 进度条
   NProgress.start()
+
+  let example = "/sys/sys/"
+  let ourSubstring = to.path
+  console.log(example +'sssssssssss'+ourSubstring)
+  if (ourSubstring.indexOf(example) != -1) {
+    ourSubstring = ourSubstring.replace('/sys/sys/', '/sys/')
+    router.push({path: ourSubstring})
+    return 
+  }
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
   // 验证当前路由所有的匹配中是否需要有登录验证的
-  if (to.matched.some(r => r.meta.auth)) {
+  // if (to.matched.some(r => r.meta.auth)) {
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
     const token = util.cookies.get('token')
-    if (token && token !== 'undefined') {
-      let userName = sessionStorage.getItem('user')
-      addDynamicMenuAndRoutes(userName, to, from)
-      next()
+    if (to.path === '/login') {
+      // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
+      if(token) {
+        next({ path: '/' })
+      } else {
+        next()
+      }
+    } else if (to.path === '/faceLogin') {
+      if(token) {
+        next({ path: '/' })
+      } else {
+        next()
+      }
     } else {
-      // 没有登录的时候跳转到登录界面
-      // 携带上登陆成功之后需要跳转的页面完整路径
-      next({
-        name: 'login',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-      // https://github.com/d2-projects/d2-admin/issues/138
-      NProgress.done()
+      if (!token) {
+        // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
+        next()
+      } else {
+        let userName = sessionStorage.getItem('user')
+        // 加载动态菜单和路由
+        addDynamicMenuAndRoutes(userName, to, from)
+        next();
+      }
     }
-  } else {
-    // 不需要身份校验 直接通过
-    next()
-  }
 })
 
 router.afterEach(to => {
@@ -129,13 +142,11 @@ function addDynamicRoutes(menuList = [], routes = []) {
       // 创建路由配置
       var route = {
         path: i.url,
-        component: null,
+        component:  resolve => require([`@/views/${i.url}`], resolve),
         name: i.name,
         meta: {
           icon: i.icon,
-          index: i.id,
-          title: i.name,
-          auth: true
+          index: i.id
         }
       }
       let path = getIFramePath(i.url)
@@ -150,7 +161,7 @@ function addDynamicRoutes(menuList = [], routes = []) {
       } else {
         try {
           // 根据菜单URL动态加载vue组件，这里要求vue组件须按照url路径存储
-          route['component'] = () => import(`@/views/${i.url}`)
+          // route['component'] = () => import(`@/views/${i.url}`)
         } catch (e) { }
       }
       // this.$router.addRoutes(routes)
