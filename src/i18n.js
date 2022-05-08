@@ -29,9 +29,12 @@ Vue.prototype.$languages = Object.keys(messages).map(langlage => ({
 }))
 
 const i18n = new VueI18n({
-  locale: util.cookies.get('lang') || process.env.VUE_APP_I18N_LOCALE,
+  locale:  'zh_cn',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE,
-  messages
+  messages: {
+    'zh_cn': require('@/assets/languages/zh_cn.json'),
+    'en_us': require('@/assets/languages/en_us.json')
+  }
 })
 
 export default i18n

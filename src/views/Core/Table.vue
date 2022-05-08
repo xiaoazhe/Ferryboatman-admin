@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import FmButton from "@/views/Core/FMButton"
+import FmButton from "@/views/core/FMButton"
 export default {
   name: 'Table',
   components:{

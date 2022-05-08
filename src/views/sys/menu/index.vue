@@ -133,17 +133,17 @@
 </template>
 
 <script>
-import FmButton from "@/views/Core/FMButton";
-import TableTreeColumn from "@/views/Core/TableTreeColumn";
+import FmButton from "@/views/core/FMButton";
+import TableTreeColumn from "@/views/core/TableTreeColumn";
 import { FIND_MENU_TREE, MENU_DELETE, MENU_SAVE} from '@/api/modules/menu.js'
-// import PopupTreeInput from "@/components/PopupTreeInput";
-// import FaIconTooltip from "@/components/FaIconTooltip";
+import PopupTreeInput from "@/components/popup-tree-input";
+import FaIconTooltip from "@/components/fa-icon-tool-tip";
 export default {
   components: {
-    // PopupTreeInput,
-     FmButton,
+    PopupTreeInput,
+    FmButton,
     TableTreeColumn,
-    // FaIconTooltip
+    FaIconTooltip
   },
   data() {
     return {
