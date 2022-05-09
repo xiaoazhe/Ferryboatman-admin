@@ -72,7 +72,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       if (!token) {
         // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
-        next()
+        next({ path: '/login' })
       } else {
         let userName = sessionStorage.getItem('user')
         // 加载动态菜单和路由
@@ -86,13 +86,15 @@ router.afterEach(to => {
   // 进度条
   NProgress.done()
   // 多页控制 打开新的页面
-  console.log(to)
+  // console.log(to)
   store.dispatch('d2admin/page/open', to)
   // 更改标题
   util.title(to.name)
 })
 
 export default router
+
+
 
 /**
 * 加载动态菜单和路由
@@ -110,6 +112,7 @@ function addDynamicMenuAndRoutes(userName, to, from) {
       let dynamicRoutes = addDynamicRoutes(res)
       // 处理静态组件绑定路由
       router.options.routes[0].children = router.options.routes[0].children.concat(dynamicRoutes)
+
       router.addRoutes(router.options.routes)
 
 

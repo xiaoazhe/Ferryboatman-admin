@@ -9,7 +9,6 @@ export default {
     },
     mutations: {
         menuRouteLoaded(state, menuRouteLoaded){  // 改变菜单和路由的加载状态
-            console.log('32222222222222')
             state.menuRouteLoaded = menuRouteLoaded;
         }
     }
