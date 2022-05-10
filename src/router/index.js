@@ -37,9 +37,9 @@ const router = new VueRouter({
  */
 router.beforeEach(async (to, from, next) => {
   // 确认已经加载多标签页数据 https://github.com/d2-projects/d2-admin/issues/201
-  await store.dispatch('d2admin/page/isLoaded')
+  await store.dispatch('admin/page/isLoaded')
   // 确认已经加载组件尺寸设置 https://github.com/d2-projects/d2-admin/issues/198
-  await store.dispatch('d2admin/size/isLoaded')
+  await store.dispatch('admin/size/isLoaded')
   // 进度条
   NProgress.start()
 
@@ -51,35 +51,61 @@ router.beforeEach(async (to, from, next) => {
     return 
   }
   // 关闭搜索面板
-  store.commit('d2admin/search/set', false)
+  store.commit('admin/search/set', false)
   // 验证当前路由所有的匹配中是否需要有登录验证的
   // if (to.matched.some(r => r.meta.auth)) {
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
     const token = util.cookies.get('token')
-    if (to.path === '/login') {
-      // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
-      if(token) {
-        next({ path: '/' })
-      } else {
-        next()
-      }
-    } else if (to.path === '/faceLogin') {
-      if(token) {
-        next({ path: '/' })
-      } else {
-        next()
-      }
+
+    // if (to.path === '/login') {
+    //   // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
+    //   if(token) {
+    //     next({ path: '/' })
+    //   } else {
+    //     next()
+    //   }
+    // } else if (to.path === '/faceLogin') {
+    //   if(token) {
+    //     next({ path: '/' })
+    //   } else {
+    //     next()
+    //   }
+    // } else {
+    //   if (!token) {
+    //     // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
+    //     next({ path: '/login' })
+    //   } else {
+    //     let userName = sessionStorage.getItem('user')
+    //     // 加载动态菜单和路由
+    //     addDynamicMenuAndRoutes(userName, to, from)
+    //     next();
+    //   }
+    // }
+
+    let userName = sessionStorage.getItem('user')
+  if (to.path === '/login') {
+    // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
+    if(userName) {
+      next({ path: '/' })
     } else {
-      if (!token) {
-        // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
-        next({ path: '/login' })
-      } else {
-        let userName = sessionStorage.getItem('user')
-        // 加载动态菜单和路由
-        addDynamicMenuAndRoutes(userName, to, from)
-        next();
-      }
+      next()
     }
+  } else if (to.path === '/faceLogin') {
+    if(userName) {
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else {
+    if (!userName) {
+      // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
+      next({ path: '/login' })
+    } else {
+      // 加载动态菜单和路由
+      addDynamicMenuAndRoutes(userName, to, from)
+      next()
+    }
+  }
 })
 
 router.afterEach(to => {
@@ -87,7 +113,7 @@ router.afterEach(to => {
   NProgress.done()
   // 多页控制 打开新的页面
   // console.log(to)
-  store.dispatch('d2admin/page/open', to)
+  store.dispatch('admin/page/open', to)
   // 更改标题
   util.title(to.name)
 })
@@ -124,7 +150,7 @@ function addDynamicMenuAndRoutes(userName, to, from) {
         // 保存用户权限标识集合
         store.commit('setPerms', res)
       })
-      store.commit('d2admin/menu/asideSet', gitMenuList(res))
+      store.commit('admin/menu/asideSet', gitMenuList(res))
       
     }).then(res => {
       
@@ -192,7 +218,7 @@ function addDynamicRoutes(menuList = [], routes = []) {
   if (temp.length >= 1) {
     addDynamicRoutes(temp, routes)
   } else {
-    store.commit('d2admin/page/init', frameInRoutes)
+    store.commit('admin/page/init', frameInRoutes)
     console.log('动态路由加载完成.')
   }
   return routes

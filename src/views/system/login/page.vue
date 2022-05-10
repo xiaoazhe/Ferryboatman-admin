@@ -195,7 +195,7 @@ export default {
     clearInterval(this.timeInterval)
   },
   methods: {
-    ...mapActions('d2admin/account', [
+    ...mapActions('admin/account', [
       'login'
     ]),
     refreshTime () {

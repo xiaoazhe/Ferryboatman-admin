@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('d2admin/menu', [
+    ...mapState('admin/menu', [
       'aside',
       'asideCollapse',
       'asideTransition'
@@ -62,7 +62,7 @@ export default {
   methods: {
     getm(){
       // 设置侧边栏菜单
-      // this.$store.commit('d2admin/menu/asideSet', menuAside)
+      // this.$store.commit('admin/menu/asideSet', menuAside)
     },
     scrollInit () {
       this.BS = new BScroll(this.$el, {
