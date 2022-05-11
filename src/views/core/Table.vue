@@ -31,7 +31,7 @@
 <script>
 import FmButton from "@/views/core/FMButton"
 export default {
-  name: 'Table',
+  // name: 'Table',
   components:{
 			FmButton
 	},
