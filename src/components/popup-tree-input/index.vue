@@ -22,10 +22,12 @@ export default {
   props: {
     data: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: []
     },
     props: {
       type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
     },
     prop: {
