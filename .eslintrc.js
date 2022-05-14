@@ -8,9 +8,10 @@ module.exports = {
     // '@vue/standard'
   ],
   rules: {
+    "vue/no-unused-components": "off", // 当存在定义而未使用的组件时，关闭报错
+    "no-unused-vars":"off", // 当存在定义而未使用的变量时，关闭报错
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    "no-unused-vars":"off"
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'
