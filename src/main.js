@@ -7,13 +7,15 @@ import Vuex from 'vuex'
 import d2Admin from '@/plugin/d2admin'
 // store
 import store from '@/store/index'
-
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 // 菜单和路由设置
 import router from './router'
 import { menuHeader, menuAside } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
+Vue.use(mavonEditor)
 Vue.use(d2Admin)
 Vue.use(Vuex)
 new Vue({

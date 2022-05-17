@@ -12,7 +12,7 @@ export function FDFS_UPLOAD(params) {
   })
 }
 
-export function NOTIFY_DELETE(params) {
+export function FDFS_DELETE(params) {
   // 接口请求
   return request({
     url: '/file/deletefdfsImage',
