@@ -191,7 +191,6 @@ function addDynamicRoutes(menuList = [], routes = []) {
       }
       // this.$router.addRoutes(routes)
       routes.push(route)
-      console.log(routes);
     }
   })
   if (temp.length >= 1) {
