@@ -43,43 +43,46 @@ router.beforeEach(async (to, from, next) => {
   // 进度条
   NProgress.start()
 
-  let example = "/sys/sys/"
-  let ourSubstring = to.path
-  if (ourSubstring.indexOf(example) != -1) {
-    ourSubstring = ourSubstring.replace('/sys/sys/', '/sys/')
-    router.push({path: ourSubstring})
-    return 
-  }
+  //修复侧边栏跳转url有重复路径问题的应急手段，修好后可删除
+  // let example = "/sys/sys/"
+  // let ourSubstring = to.path
+  // if (ourSubstring.indexOf(example) != -1) {
+  //   ourSubstring = ourSubstring.replace('/sys/sys/', '/sys/')
+  //   router.push({ path: ourSubstring })
+  //   return
+  // }
+
+
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
   // 验证当前路由所有的匹配中是否需要有登录验证的
   // if (to.matched.some(r => r.meta.auth)) {
-    // 这里暂时将cookie里是否存有token作为验证是否登录的条件
-    const token = util.cookies.get('token')
-    if (to.path === '/login') {
-      // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
-      if(token) {
-        next({ path: '/' })
-      } else {
-        next()
-      }
-    } else if (to.path === '/faceLogin') {
-      if(token) {
-        next({ path: '/' })
-      } else {
-        next()
-      }
+  // 这里暂时将cookie里是否存有token作为验证是否登录的条件
+  const token = util.cookies.get('token')
+  if (to.path === '/login') {
+    // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
+    if (token) {
+      next({ path: '/' })
     } else {
-      if (!token) {
-        // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
-        next({ path: '/login' })
-      } else {
-        let userName = sessionStorage.getItem('user')
-        // 加载动态菜单和路由
-        addDynamicMenuAndRoutes(userName, to, from)
-        next();
-      }
+      next()
     }
+  } else if (to.path === '/faceLogin') {
+    if (token) {
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else {
+    if (!token) {
+      // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
+      next({ path: '/login' })
+    } else {
+      let userName = sessionStorage.getItem('user')
+      // 加载动态菜单和路由
+      addDynamicMenuAndRoutes(userName, to, from)
+      next();
+    }
+  }
 })
 
 router.afterEach(to => {
@@ -102,7 +105,7 @@ export default router
 function addDynamicMenuAndRoutes(userName, to, from) {
   // 处理IFrame嵌套页面
   // handleIFrameUrl(to.path)
-  if(store.state.app.menuRouteLoaded) {
+  if (store.state.app.menuRouteLoaded) {
     console.log('动态菜单和路由已经存在.')
     return
   }
@@ -124,10 +127,11 @@ function addDynamicMenuAndRoutes(userName, to, from) {
         // 保存用户权限标识集合
         store.commit('setPerms', res)
       })
+      console.log(gitMenuList(res));
       store.commit('d2admin/menu/asideSet', gitMenuList(res))
-      
+
     }).then(res => {
-      
+
     })
     .catch(function (res) {
     })
@@ -140,7 +144,7 @@ function addDynamicMenuAndRoutes(userName, to, from) {
 */
 function addDynamicRoutes(menuList = [], routes = []) {
   var temp = []
-  
+
   menuList.forEach((i, index) => {
     if (i.children && i.children.length >= 1) {
       temp = temp.concat(i.children)
@@ -159,17 +163,17 @@ function addDynamicRoutes(menuList = [], routes = []) {
         }
       }
       var frameInRout = {
-          path: i.url,
-          name: i.name,
-          meta: {
-            title: i.name,
-            auth: true
-          },
-          component:  resolve => require([`@/views/${i.url}`], resolve),
+        path: i.url,
+        name: i.name,
+        meta: {
+          title: i.name,
+          auth: true
+        },
+        component: resolve => require([`@/views/${i.url}`], resolve),
       }
       // 顶部菜单路由
       frameInRoutes[0].children.push(frameInRout)
-      
+
       let path = getIFramePath(i.url)
       if (path) {
         // 如果是嵌套页面, 通过iframe展示
@@ -187,6 +191,7 @@ function addDynamicRoutes(menuList = [], routes = []) {
       }
       // this.$router.addRoutes(routes)
       routes.push(route)
+      console.log(routes);
     }
   })
   if (temp.length >= 1) {
@@ -206,7 +211,7 @@ function gitMenuList(newMenu, targetMenu = []) {
   newMenu.forEach((v, i) => {
     const obj = {
       title: v.name,
-      path: v.url
+      path: `/${v.url}`
     }
     if (v.icon) obj.icon = v.icon
     if (Object.values(v.children).length > 0) obj.children = gitMenuList(v.children)
