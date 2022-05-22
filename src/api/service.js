@@ -36,9 +36,33 @@ function createService () {
           case 200:
             // [ 示例 ] code === 0 代表没有错误
             return dataAxios.data
-          case 'xxx':
+          case 500:
             // [ 示例 ] 其它和后台约定的 code
-            errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+            errorCreate(`[ code: 500 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 400:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 400 ] ${dataAxios.message}: ${response.config.url}`)
+            break
+          case 501:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 501 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 502:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 502 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 503:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 503 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 504:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 504 ] ${dataAxios.msg}: ${response.config.url}`)
+            break
+          case 505:
+            // [ 示例 ] 其它和后台约定的 code
+            errorCreate(`[ code: 505 ] ${dataAxios.msg}: ${response.config.url}`)
             break
           default:
             // 不是正确的 code

@@ -234,7 +234,8 @@ export default {
         label: 'name',
         children: 'children'
       },
-      roles: []
+      roles: [],
+      ids: []
     }
   },
   methods: {
@@ -285,8 +286,8 @@ export default {
         password: '',
         deptId: 1,
         deptName: '',
-        email: 'test@qq.com',
-        mobile: '13889700023',
+        email: '',
+        mobile: '',
         status: 1,
         userRoles: []
       }
@@ -320,7 +321,7 @@ export default {
             params.userRoles = userRoles
             USER_SAVE(params).then((res) => {
               this.editLoading = false
-              if (res.code == 200) {
+              if (res) {
                 this.$message({ message: '操作成功', type: 'success' })
                 this.dialogVisible = false
                 this.$refs['dataForm'].resetFields()

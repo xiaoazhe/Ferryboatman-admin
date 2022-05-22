@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 80%">
     <!-- 搜索栏-->
     <el-form :inline="true" :model="page" class="demo-form-inline" size="mini">
       <el-form-item label="标题名">
@@ -20,7 +20,7 @@
     </el-form>
 
     <!-- 列表 -->
-    <el-table :data="dataForm.content" border style="width: 100%">
+    <el-table :data="dataForm.content" border style="width: 100%" height="100%">
       <el-table-column prop="id" label="编号" />
       <el-table-column
         prop="labelname"

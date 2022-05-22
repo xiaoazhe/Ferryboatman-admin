@@ -39,30 +39,30 @@ export function GET_LOGIN_USER() {
 }
 
 // 删除
-export function BATCH_DELETE(params) {
+export function BATCH_DELETE(data) {
   // 接口请求
   return request({
     url: '/user/delete',
     method: 'post',
-    params
+    data
   })
 }
 
-export function DELETE_FACE(params) {
+export function DELETE_FACE(data) {
   // 接口请求
   return request({
-    url: `/user/deleteFace/${params}`,
+    url: `/user/deleteFace/${data}`,
     method: 'get'
   })
 }
 
 // 分页查询
-export function USER_FIND_PAGE(params) {
+export function USER_FIND_PAGE(data) {
   // 接口请求
   return request({
     url: '/user/findPage',
     method: 'post',
-    params
+    data
   })
 }
 // 查找用户的菜单权限标识集合
@@ -86,22 +86,22 @@ export function FIND_BY_NAME(params) {
 }
 
 // 更新用户密码
-export function UPDATE_PWD(params) {
+export function UPDATE_PWD(data) {
   // 接口请求
   return request({
     url: '/user/updatePassword',
     method: 'get',
-    params
+    data
   })
 }
 
 // 导出Excel用户信息
-export function EXPORT_USER_EXCEL(params) {
+export function EXPORT_USER_EXCEL(data) {
   // 接口请求
   return request({
     url: '/user/exportUserExcelFile',
     method: 'post',
-    params
+    data
   })
 }
 

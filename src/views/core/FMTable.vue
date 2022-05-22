@@ -117,11 +117,19 @@ export default {
 		},
     // 删除
 		handleDelete: function (index, row) {
-			this.delete(row.id)
+      console.log(row.id)
+      if (row.id === null || row.id === undefined) {
+        this.delete(row.uid)
+      } else {
+        this.delete(row.id)
+      }
 		},
 		// 批量删除
 		handleBatchDelete: function () {
 			let ids = this.selections.map(item => item.id).toString()
+      if (row.id === null || row.id === undefined) {
+        ids = this.selections.map(item => item.uid).toString()
+      }
 			this.delete(ids)
 		},
 		// 删除操作
@@ -132,15 +140,17 @@ export default {
 				let params = []
 				let idArray = (ids+'').split(',')
 				for(var i=0; i<idArray.length; i++) {
-					params.push({'id':idArray[i]})
+					params.push({'id':idArray[i], 'uid':idArray[i]})
         }
+        console.log(params)
         this.loading = true
         let callback = res => {
-          if(res.code == 200) {
+				  console.log(res)
+          if(res) {
             this.$message({message: '删除成功', type: 'success'})
             this.findPage()
           } else {
-            this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+            this.$message({message: '操作失败, ' + res, type: 'error'})
           }
           this.loading = false
         }

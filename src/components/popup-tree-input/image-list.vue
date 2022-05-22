@@ -65,7 +65,6 @@
         let that = this
         let tempData = that.data
         that.dataShow = []
-        console.log(that.data)
         tempData.forEach(function (elem) {
           if (elem.name.toString().indexOf(that.keyword) > -1) {
             that.dataShow.push(elem)
