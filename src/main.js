@@ -12,12 +12,15 @@ import 'mavon-editor/dist/css/index.css'
 // 菜单和路由设置
 import router from './router'
 import { menuHeader, menuAside } from '@/menu'
-import { frameInRoutes } from '@/router/routes'
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+
 
 // 核心插件
 Vue.use(mavonEditor)
 Vue.use(d2Admin)
 Vue.use(Vuex)
+Vue.use(iView)
 new Vue({
   router,
   store,

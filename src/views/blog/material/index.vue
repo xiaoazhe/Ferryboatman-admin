@@ -223,8 +223,6 @@
   import {
     MATERIAL_PAGE,
     MATERIAL_SAVE,
-    MATERIAL_UPDATE,
-    MATERIAL_DELETE,
     MATERIAL_BY_ID,
     MATERIAL_AUDIT
   } from "@/api/modules/material.js";

@@ -3,12 +3,12 @@
     <Row class="image-list-heading vm-panel">
       <Row type="flex" align="middle" justify="space-between" class="panel-body">
        <div class="search-bar">
-          <Input placeholder="Please enter ..." v-model="keyword" style="width: 300px"></Input>
-          <Button type="ghost" @click="search"><i class="fa fa-search"></i></Button>
+          <Input placeholder="Please enter ..." v-model="keyword" style="width: 300px"/>
+          <Button type="ghost" @click="search"><i class="fa fa-search"></i>搜索</Button>
         </div>
         <Row type="flex" align="middle" class="page">
           <span>Show</span>
-          <Input :max="40" :min="1" :number="true" v-model="showNum" class="input-number" @on-change=" updateDataShow "></Input>
+          <Input :max="40" :min="1" :number="true" v-model="showNum" class="input-number" @on-change=" updateDataShow "/>
           <span class="margin-end">/ Page</span>
           <span class="total">Total {{ data.length }}</span>
           <Page :total="data.length" :current="currentPage" :page-size="showNum" @on-change="pageChange"></Page>
@@ -20,7 +20,8 @@
         <VmCard :editable="true" :name="item.name" :img="item.img" :nickName="item.nickName"
                 :roleNames="item.roleNames" :detailUrl="item.detailUrl" :editUrl="item.editUrl"
                 :avatar="item.avatar"
-                @delete-ok=" deleteOk(item) "></VmCard>
+                @delete-ok=" deleteOk(item) ">
+        </VmCard>
       </Col>
     </Row>
   </div>
@@ -28,7 +29,9 @@
 
 <script>
   import VmCard from './image-card'
-  import {deleteFace} from "../../http/modules/user";
+  import {
+    DELETE_FACE
+  } from "@/api/modules/user.js";
   export default {
     name: 'VmImageList',
     components: {
@@ -62,17 +65,16 @@
         let that = this
         let tempData = that.data
         that.dataShow = []
+        console.log(that.data)
         tempData.forEach(function (elem) {
-          for (let i in elem) {
-            if (elem[i].toString().indexOf(that.keyword) > -1) {
-              that.dataShow.push(elem)
-              return
-            }
+          if (elem.name.toString().indexOf(that.keyword) > -1) {
+            that.dataShow.push(elem)
+            return
           }
         })
       },
       deleteOk: function (data) {
-        this.$api.user.deleteFace(data.id).then((response) => {
+        DELETE_FACE(data.id).then((response) => {
           if(response.code == "200") {
             this.$emit("cropperSuccess", response.msg)
             location. reload()
