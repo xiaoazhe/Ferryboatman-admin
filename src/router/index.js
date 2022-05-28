@@ -13,7 +13,6 @@ import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 import { FIND_PERMISSIONS } from '@/api/modules/user.js'
 import { frameInRoutes } from './routes'
-import {menuHeader} from "@/menu";
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -105,7 +104,7 @@ export default router
 */
 function addDynamicMenuAndRoutes(userName, to, from) {
   // 处理IFrame嵌套页面
-  handleIFrameUrl(to.path)
+  // handleIFrameUrl(to.path)
   if (store.state.app.menuRouteLoaded) {
     console.log('动态菜单和路由已经存在.')
     return
@@ -170,14 +169,10 @@ function addDynamicRoutes(menuList = [], routes = []) {
       temp = temp.concat(i.children)
     } else if (i.url && /\S/.test(i.url)) {
       i.url = i.url.replace(/^\//, '')
-      let url = i.url
-      if(getIFramePath(i.url)) {
-        url = 'iframe/iframe'
-      }
       // 创建路由配置
       var route = {
         path: i.url,
-        component: resolve => require([`@/views/${url}`], resolve),
+        component: resolve => require([`@/views/${i.url}`], resolve),
         name: i.name,
         meta: {
           icon: i.icon,
@@ -237,6 +232,9 @@ function gitMenuList(newMenu, targetMenu = []) {
     const obj = {
       title: v.name,
       path: `/${v.url}`
+    }
+    if(v.url.indexOf('http') !=-1) {
+      obj.path = v.url
     }
     if (v.icon) obj.icon = v.icon
     if (Object.values(v.children).length > 0) obj.children = gitMenuList(v.children)

@@ -7,7 +7,6 @@ export default {
   },
   actions: {
     setPerms(state, perms){  // 用户权限标识集合
-      console.log('2222222222222222222222222222222222222222222222222222222')
       state.perms = perms;
     },
     /**

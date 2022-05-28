@@ -17,7 +17,8 @@ const frameIn = [
         meta: {
           auth: true
         },
-        component: _import('sys/intro')
+        // component: _import('sys/intro')
+        component: _import('system/index')
       },
       // 系统 前端日志
       {
