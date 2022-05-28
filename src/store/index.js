@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import d2admin from './modules/d2admin'
 import user from './modules/user'
 import app from './modules/app'
-
+import iframe from './modules/iframe'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,5 +12,6 @@ export default new Vuex.Store({
     d2admin: d2admin,
     user: user,
     app: app,
+    iframe: iframe,
   }
 })

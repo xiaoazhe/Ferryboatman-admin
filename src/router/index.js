@@ -13,6 +13,7 @@ import { MENU_FIND_NAV_TREE } from '@/api/modules/menu.js'
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 import { FIND_PERMISSIONS } from '@/api/modules/user.js'
 import { frameInRoutes } from './routes'
+import {menuHeader} from "@/menu";
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -104,7 +105,7 @@ export default router
 */
 function addDynamicMenuAndRoutes(userName, to, from) {
   // 处理IFrame嵌套页面
-  // handleIFrameUrl(to.path)
+  handleIFrameUrl(to.path)
   if (store.state.app.menuRouteLoaded) {
     console.log('动态菜单和路由已经存在.')
     return
@@ -129,12 +130,31 @@ function addDynamicMenuAndRoutes(userName, to, from) {
       })
       console.log(gitMenuList(res));
       store.commit('d2admin/menu/asideSet', gitMenuList(res))
-
+      // store.commit('d2admin/menu/headerSet', gitMenuList(res))
+      // 初始化菜单搜索功能
+      store.commit('d2admin/search/init', gitMenuList(res))
     }).then(res => {
 
     })
     .catch(function (res) {
     })
+}
+
+/**
+ * 处理IFrame嵌套页面
+ */
+function handleIFrameUrl(path) {
+  // 嵌套页面，保存iframeUrl到store，供IFrame组件读取展示
+  let url = path
+  let length = store.state.iframe.iframeUrls.length
+  for(let i=0; i<length; i++) {
+    let iframe = store.state.iframe.iframeUrls[i]
+    if(path != null && path.endsWith(iframe.path)) {
+      url = iframe.url
+      store.commit('setIFrameUrl', url)
+      break
+    }
+  }
 }
 
 /**
@@ -150,10 +170,14 @@ function addDynamicRoutes(menuList = [], routes = []) {
       temp = temp.concat(i.children)
     } else if (i.url && /\S/.test(i.url)) {
       i.url = i.url.replace(/^\//, '')
+      let url = i.url
+      if(getIFramePath(i.url)) {
+        url = 'iframe/iframe'
+      }
       // 创建路由配置
       var route = {
         path: i.url,
-        component: resolve => require([`@/views/${i.url}`], resolve),
+        component: resolve => require([`@/views/${url}`], resolve),
         name: i.name,
         meta: {
           icon: i.icon,
@@ -178,11 +202,13 @@ function addDynamicRoutes(menuList = [], routes = []) {
       if (path) {
         // 如果是嵌套页面, 通过iframe展示
         route['path'] = path
-        //  route['component'] = resolve => require([`@/views/IFrame/IFrame`], resolve)
+        // console.log(route.component()+'+++++++++++++++++++++')
+        route['component'] = resolve => require([`@/views/iframe/iframe`], resolve)
+
         // 存储嵌套页面路由路径和访问URL
         let url = getIFrameUrl(i.url)
         let iFrameUrl = { 'path': path, 'url': url }
-        //  store.commit('addIFrameUrl', iFrameUrl)
+         store.commit('addIFrameUrl', iFrameUrl)
       } else {
         try {
           // 根据菜单URL动态加载vue组件，这里要求vue组件须按照url路径存储
