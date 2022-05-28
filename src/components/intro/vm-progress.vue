@@ -8,19 +8,19 @@
         <Radio label="-1"><i class="fa fa-sort-amount-desc"></i></Radio>
       </Radio-group>
     </Row>
-    <table> 
-      <tbody> 
+    <table>
+      <tbody>
         <tr v-for="(item, index) in rebuildData" :key="item.id">
-          <td>  
+          <td>
            {{ index | indexPlus }}
           </td>
-          <td>  
+          <td>
             {{ item.name }}
           </td>
-          <td v-if="item.tags" :key="item.id">  
+          <td v-if="item.tags" :key="item.id">
             <Tag v-for="item in item.tags" :key="item.id">{{ item }}</Tag>
           </td>
-          <td>  
+          <td>
             <Progress :percent="item.value" status="active"></Progress>
           </td>
         </tr>
@@ -89,3 +89,44 @@
     }
   }
 </script>
+<style lang="less" scoped>
+
+  .vm-progress{
+    .panel-heading{
+      height: 80px;
+      color: #41b883;
+      font-size: 16px;
+    }
+    table{
+      tr{
+        td{
+          padding: 0 15px;
+          font-size: 14px;
+        }
+        td:nth-child(2){
+          width: 15%;
+        }
+        td:last-child{
+          width: 40%;
+        }
+      }
+    }
+  }
+  .vm-panel{
+    background-color: white;
+    text-align: left;
+    border-radius: 4px;
+    .panel-heading{
+      text-align: left;
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      border-bottom: 1px solid #eeeff1;
+      padding:15px;
+      font-weight: bold;
+    }
+    .panel-body{
+      padding: 15px;
+      font-size: 14px;
+    }
+  }
+</style>

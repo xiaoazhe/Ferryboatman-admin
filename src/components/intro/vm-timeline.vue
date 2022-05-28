@@ -66,3 +66,72 @@
     }
   }
 </script>
+<style lang="less" scoped>
+  .vm-timeline {
+    font-size: 14px;
+
+    .panel-heading {
+      color: #41b883;
+      font-size: 16px;
+    }
+
+    ul.panel-body {
+      li {
+        .left, .right {
+          flex-grow: 1;
+          width: calc(50% - 1px);
+          padding-bottom: 15px;
+        }
+
+        .left {
+          text-align: right;
+          padding-right: 30px;
+        }
+
+        .right {
+          text-align: left;
+          padding-left: 30px;
+        }
+
+        .content {
+          background-color: #f4f4f4;
+          border-radius: 4px;
+        }
+
+        .split {
+          width: 2px;
+          background-color: #dddee1;
+          height: inherit;
+
+          .dot-left, .dot-right {
+            display: inline-block;
+            position: relative;
+            width: 12px;
+            height: 12px;
+            color: #41b883;
+            background-color: #41b883;
+            border-radius: 50%;
+            margin: 20px 0 0 -5px;
+          }
+
+          .dot-left:before, .dot-right:before {
+            content: '';
+            border: 6px solid transparent;
+            position: absolute;
+          }
+
+          .dot-left:before {
+            border-left-color: inherit;
+            left: 8px;
+          }
+
+          .dot-right:before {
+            border-right-color: inherit;
+            right: 8px;
+          }
+        }
+
+      }
+    }
+  }
+</style>

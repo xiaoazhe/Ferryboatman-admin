@@ -72,3 +72,58 @@
     }
   }
 </script>
+<style lang="less" scoped>
+
+  .vm-user-preview{
+    overflow: hidden;
+    .panel-heading{
+      display: flex;
+      img{
+        margin-right: 15px;
+      }
+      .title{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .name{
+          color: #41b883;
+          font-size: 18px;
+        }
+        .role{
+          color: #99a9c0;
+        }
+      }
+    }
+    ul.content{
+      font-size: 12px;
+      li{
+        display: flex;
+        border-bottom: 1px solid #eeeff1;
+        i{
+          color: #99a9c0;
+          font-size: 16px;
+          width: 10px;
+        }
+        padding: 0 15px;
+        height: 45px;
+        line-height: 45px;
+        span{
+          flex-grow: 1;
+        }
+        span:first-child{
+          width: 20%;
+        }
+        span:nth-child(2){
+          width: 40%;
+        }
+        span:last-child{
+          text-align: right;
+          width: 40%;
+        }
+      }
+      li:last-child{
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
+</style>
