@@ -231,12 +231,13 @@ function gitMenuList(newMenu, targetMenu = []) {
   newMenu.forEach((v, i) => {
     const obj = {
       title: v.name,
-      path: `/${v.url}`
+      path: `/${v.url}`,
+      icon: v.icon,
     }
     if(v.url.indexOf('http') !=-1) {
       obj.path = v.url
     }
-    if (v.icon) obj.icon = v.icon
+    if (v.iconSvg) obj.iconSvg = v.icon
     if (Object.values(v.children).length > 0) obj.children = gitMenuList(v.children)
     targetMenu.push(obj)
   })
