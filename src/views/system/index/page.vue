@@ -190,9 +190,9 @@
       // 测试代码
       layoutUpdatedHandler (newLayout) {
         console.group('layoutUpdatedHandler')
-        newLayout.forEach(e => {
-          console.log(`{'x': ${e.x}, 'y': ${e.y}, 'w': ${e.w}, 'h': ${e.h}, 'i': '${e.i}'},`)
-        })
+        // newLayout.forEach(e => {
+        //   console.log(`{'x': ${e.x}, 'y': ${e.y}, 'w': ${e.w}, 'h': ${e.h}, 'i': '${e.i}'},`)
+        // })
         console.groupEnd()
       },
       resizeHandler (i, newH, newW) {

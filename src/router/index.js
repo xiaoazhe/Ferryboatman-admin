@@ -127,9 +127,8 @@ function addDynamicMenuAndRoutes(userName, to, from) {
         // 保存用户权限标识集合
         store.commit('setPerms', res)
       })
-      console.log(gitMenuList(res));
       store.commit('d2admin/menu/asideSet', gitMenuList(res))
-      // store.commit('d2admin/menu/headerSet', gitMenuList(res))
+      store.commit('d2admin/menu/headerSet', gitMenuList(res))
       // 初始化菜单搜索功能
       store.commit('d2admin/search/init', gitMenuList(res))
     }).then(res => {
@@ -197,7 +196,6 @@ function addDynamicRoutes(menuList = [], routes = []) {
       if (path) {
         // 如果是嵌套页面, 通过iframe展示
         route['path'] = path
-        // console.log(route.component()+'+++++++++++++++++++++')
         route['component'] = resolve => require([`@/views/iframe/iframe`], resolve)
 
         // 存储嵌套页面路由路径和访问URL
@@ -218,7 +216,6 @@ function addDynamicRoutes(menuList = [], routes = []) {
     addDynamicRoutes(temp, routes)
   } else {
     store.commit('d2admin/page/init', frameInRoutes)
-    console.log('动态路由加载完成.')
   }
   return routes
 }

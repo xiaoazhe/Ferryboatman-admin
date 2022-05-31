@@ -4,7 +4,7 @@
       <Row type="flex" align="middle" justify="space-between" class="panel-body">
        <div class="search-bar">
           <Input placeholder="Please enter ..." v-model="keyword" style="width: 300px"/>
-          <Button type="ghost" @click="search"><i class="fa fa-search"></i>搜索</Button>
+          <Button @click="search"><i class="fa fa-search"></i>搜索</Button>
         </div>
         <Row type="flex" align="middle" class="page">
           <span>Show</span>
@@ -97,5 +97,31 @@
   }
 </script>
 <style lang="less">
-@import './../../theme/components.less';
+/*@import './../../theme/components.less';*/
+
+.vm-image-list{
+  .image-list-heading{
+    .page{
+      span{
+        margin-right: 10px;
+      }
+      span.margin-end{
+        margin-right: 20px;
+      }
+      .input-number{
+        width: 40px;
+        margin-right: 10px;
+      }
+    }
+    .panel-body{
+      margin-top: 15px;
+      &>div{
+        margin-top: 15px;
+      }
+    }
+  }
+  .total{
+    margin-right: 15px;
+  }
+}
 </style>

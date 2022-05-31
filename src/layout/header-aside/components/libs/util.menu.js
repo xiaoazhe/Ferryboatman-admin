@@ -4,7 +4,6 @@
  * @param {Object} menu 菜单项
  */
 export function elMenuItem (h, menu) {
-  console.log(JSON.stringify(menu)+'++++++++++++'+menu.iconSvg)
   let icon = null
   if (menu.icon)
     icon = <i class={ `fa ${menu.icon}` }/>

@@ -53,5 +53,6 @@
 </script>
 
 <style lang="less">
-  @import './../../../theme/components.less';
+  /*@import './../../../theme/components.less';*/
+
 </style>

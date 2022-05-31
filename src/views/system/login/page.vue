@@ -78,6 +78,11 @@
             <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
               快速选择用户（测试功能）
             </el-button>
+            <el-button
+              class="page-login--quick" size="default" type="info"
+              @click="faceCheck"
+            >刷脸登录</el-button
+            >
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -118,6 +123,24 @@
         </el-col>
       </el-row>
     </el-dialog>
+
+    <!-- 二维码弹层 -->
+    <el-dialog
+      title="扫一扫"
+      :visible.sync="centerDialogVisible"
+      width="240px"
+      align="center"
+      class="code"
+    >
+      <span><img class="customerHead" :src="param.qrcode" alt="" /></span>
+      <li>
+        <a
+          target="_blank"
+          :href="'http://localhost:8080/#/faceLogin?code=' + css"
+        ><span>PC端点击这里</span></a
+        >
+      </li>
+    </el-dialog>
   </div>
 </template>
 
@@ -125,7 +148,7 @@
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
-import { ADMIN_LOGIN } from '@/api/modules/login.js'
+import { ADMIN_LOGIN, FACE_QR_CODE, CHECK_QR_CODE } from '@/api/modules/login.js'
 import Cookies from 'js-cookie'
 export default {
   mixins: [
@@ -137,6 +160,10 @@ export default {
       time: dayjs().format('HH:mm:ss'),
       // 快速选择用户
       dialogVisible: false,
+      centerDialogVisible: false,
+      param: {
+        qrcode: ''
+      },
       users: [
         {
           name: 'Admin',
@@ -254,6 +281,40 @@ export default {
           // 登录表单校验失败
           this.$message.error('表单校验失败，请检查')
         }
+      })
+    },
+    faceCheck () {
+      FACE_QR_CODE().then((res) => {
+        // qrcode().then(res => {
+        this.param.qrcode = res.file
+
+        this.centerDialogVisible = true
+        this.codeCheckInfo = res.code
+        this.cs = "localhost:8080/#/faceLogin?code=" + res.code
+        localStorage.setItem("code", res.code)
+        this.css = res.code
+        setInterval(() => {
+          if (this.states === '-1') {
+            CHECK_QR_CODE({ code: res.code }).then((res2) => {
+              // codeCheck({ code: res.data.data.code }).then(res => {
+              this.states = res2.state
+              this.token = res2.token
+              if (this.states === '1') {
+                // 登录
+                if (res2.token != undefined) {
+                  Cookies.set('token', res2.token) // 放置token到Cookie
+                  sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
+                  this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
+                  this.$router.push('/')  // 登录成功，跳转到主页
+                }
+              }
+              if (this.states == '0') {
+                // 关闭
+                this.centerDialogVisible = false
+              }
+            })
+          }
+        }, 1000 * 5)
       })
     }
   }

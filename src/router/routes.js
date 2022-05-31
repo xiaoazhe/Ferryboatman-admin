@@ -81,6 +81,15 @@ const errorPage = [
   }
 ]
 
+const facePage = [
+  {
+    path: '/faceLogin',
+    name: '人脸登录',
+    // path: '/login',
+    // name: 'login',
+    component: _import('system/faceLogin')
+  }
+]
 
 
 // 导出需要显示菜单的
@@ -91,7 +100,8 @@ export const frameInRoutes = frameIn
 export default [
   ...frameIn,
   ...frameOut,
-  ...errorPage
+  ...errorPage,
+  ...facePage
 ]
 
 
