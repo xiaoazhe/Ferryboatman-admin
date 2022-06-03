@@ -150,6 +150,8 @@ import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
 import { ADMIN_LOGIN, FACE_QR_CODE, CHECK_QR_CODE } from '@/api/modules/login.js'
 import Cookies from 'js-cookie'
+import util from "../../../libs/util";
+import store from "../../../store";
 export default {
   mixins: [
     localeMixin
@@ -164,6 +166,7 @@ export default {
       param: {
         qrcode: ''
       },
+      states: '-1',
       users: [
         {
           name: 'Admin',
@@ -214,9 +217,9 @@ export default {
     }
   },
   mounted () {
-    this.timeInterval = setInterval(() => {
-      this.refreshTime()
-    }, 1000)
+    // this.timeInterval = setInterval(() => {
+    //   this.refreshTime()
+    // }, 1000)
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
@@ -224,6 +227,12 @@ export default {
   methods: {
     ...mapActions('d2admin/account', [
       'login'
+    ]),
+    ...mapActions('d2admin/user', [
+      'set'
+    ]),
+    ...mapActions('d2admin/account', [
+      'load'
     ]),
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
@@ -285,9 +294,7 @@ export default {
     },
     faceCheck () {
       FACE_QR_CODE().then((res) => {
-        // qrcode().then(res => {
         this.param.qrcode = res.file
-
         this.centerDialogVisible = true
         this.codeCheckInfo = res.code
         this.cs = "localhost:8080/#/faceLogin?code=" + res.code
@@ -296,16 +303,28 @@ export default {
         setInterval(() => {
           if (this.states === '-1') {
             CHECK_QR_CODE({ code: res.code }).then((res2) => {
-              // codeCheck({ code: res.data.data.code }).then(res => {
               this.states = res2.state
               this.token = res2.token
               if (this.states === '1') {
                 // 登录
                 if (res2.token != undefined) {
-                  Cookies.set('token', res2.token) // 放置token到Cookie
+                  // Cookies.set('token', res2.token) // 放置token到Cookie
+                  // sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
+                  // this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
+                  // this.$router.push('/')  // 登录成功，跳转到主页
+                  util.cookies.set('token', res2.token)
                   sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
                   this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
-                  this.$router.push('/')  // 登录成功，跳转到主页
+                  // 设置 vuex 用户信息
+                  this.set({
+                    root: true,
+                    name: res2.user.name
+                  })
+                  // dispatch('d2admin/user/set', { name: res.name }, { root: true })
+                  // 用户登录后从持久化数据加载一系列的设置
+                  // dispatch('load')
+                  this.load("load")
+                  this.$router.replace(this.$route.query.redirect || '/')
                 }
               }
               if (this.states == '0') {

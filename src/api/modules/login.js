@@ -17,10 +17,10 @@ export function FACE_QR_CODE (account, password) {
 }
 
 
-export function CHECK_QR_CODE (data) {
+export function CHECK_QR_CODE (params) {
   // 接口请求
   return request({
-    url: `/qrcode/${data.code}`,
+    url: `/qrcode/${params.code}`,
     method: 'get'
   })
 }
