@@ -136,7 +136,7 @@
       <li>
         <a
           target="_blank"
-          :href="'http://localhost:8080/#/faceLogin?code=' + css"
+          :href="'http://121.5.129.126:8880/#/facelogin?code=' + css"
         ><span>PC端点击这里</span></a
         >
       </li>
@@ -148,10 +148,8 @@
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
-import { ADMIN_LOGIN, FACE_QR_CODE, CHECK_QR_CODE } from '@/api/modules/login.js'
-import Cookies from 'js-cookie'
+import { FACE_QR_CODE, CHECK_QR_CODE } from '@/api/modules/login.js'
 import util from "../../../libs/util";
-import store from "../../../store";
 export default {
   mixins: [
     localeMixin
@@ -251,28 +249,6 @@ export default {
      */
     // 提交登录信息
     submit () {
-      // ADMIN_LOGIN(this.formLogin.username, this.formLogin.password).then((res) => {
-      //   if (res.msg != null) {
-      //     this.$message({
-      //       message: res.msg,
-      //       type: 'error'
-      //     })
-      //   } else {
-      //     Cookies.set('token', res.token) // 放置token到Cookie
-      //     sessionStorage.setItem('user', this.formLogin.username) // 保存用户到本地会话
-      //     // this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
-      //     // this.$router.push('/')  // 登录成功，跳转到主页
-      //     this.$router.push('/index')
-      //     this.$router.push({name:'index'})
-      //     this.$router.push({path:'/index'})
-      //   }
-      //   this.loading = false
-      // }).catch((res) => {
-      //   this.$message({
-      //     message: res.message,
-      //     type: 'error'
-      //   })
-      // })
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
@@ -308,10 +284,6 @@ export default {
               if (this.states === '1') {
                 // 登录
                 if (res2.token != undefined) {
-                  // Cookies.set('token', res2.token) // 放置token到Cookie
-                  // sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
-                  // this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
-                  // this.$router.push('/')  // 登录成功，跳转到主页
                   util.cookies.set('token', res2.token)
                   sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
                   this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
@@ -320,9 +292,7 @@ export default {
                     root: true,
                     name: res2.user.name
                   })
-                  // dispatch('d2admin/user/set', { name: res.name }, { root: true })
                   // 用户登录后从持久化数据加载一系列的设置
-                  // dispatch('load')
                   this.load("load")
                   this.$router.replace(this.$route.query.redirect || '/')
                 }

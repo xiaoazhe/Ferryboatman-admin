@@ -85,8 +85,6 @@ const facePage = [
   {
     path: '/faceLogin',
     name: '人脸登录',
-    // path: '/login',
-    // name: 'login',
     component: _import('system/faceLogin')
   }
 ]

@@ -7,7 +7,7 @@
         注销
       </el-dropdown-item>
       <el-dropdown-item @click.native="clearCache">
-        <d2-icon name="power-off" class="fa fa-undo"/>
+        <d2-icon name="power-off" class="fa fa-eraser"/>
         清除缓存
       </el-dropdown-item>
       <el-dropdown-item @click.native="showBackupDialog">
