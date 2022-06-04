@@ -93,7 +93,7 @@
                 username: response.user.name,
                 password: response.user.pwd
               })
-
+              window.close()
             }).catch(function(error) {
               console.log(error)
             })
