@@ -1,7 +1,8 @@
 <template>
   <div class="login-container">
     <div class="login-form" v-show="canvasShow">
-      <p class="titleInfo">请把正脸对准摄像头,验证完毕请关闭该页面</p>
+      <p class="titleInfo">人脸识别打开摄像头失败解决方案:https://blog.csdn.net/weixin_45931326/article/details/109626136</p>
+      <p class="titleInfo">填充放行ip：http://121.5.129.126:8880</p>
       <div class="regInfo">
         <!-- <div class="tip">没有检测到脸</div> -->
         <div class="canvas">
