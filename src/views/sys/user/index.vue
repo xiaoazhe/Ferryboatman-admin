@@ -101,7 +101,7 @@
         <el-form-item label="上传封面">
           <el-upload class="upload-cover"
                      drag
-                     action="http://localhost:8001/file/images"
+                     action="http://121.5.129.126:8001/file/images"
                      multipartFile
                      :on-success="uploadCover">
             <i class="el-icon-upload"

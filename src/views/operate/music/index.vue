@@ -200,8 +200,8 @@
         },
         imageUrl: null, // 上传图片回显
         fileList: [], // 上传文件的文件列表
-        uploadUrl: "http://localhost:8001/file/images", // 上传图片路径
-        fdfsUploadImage: "http://localhost:8001/file/fdfsUploadImage"
+        uploadUrl: "http://121.5.129.126:8001/file/images", // 上传图片路径
+        fdfsUploadImage: "http://121.5.129.126:8001/file/fdfsUploadImage"
       }
     },
     created () {

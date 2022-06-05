@@ -48,7 +48,7 @@ export default {
       showHeader: false,
       backupVisible: false,
       tableLoading: false,
-      baseUrl: "http://localhost:8001"
+      baseUrl: "http://121.5.129.126:8001"
     }
   },
   computed: {

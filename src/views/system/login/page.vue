@@ -268,7 +268,7 @@ export default {
         this.param.qrcode = res.file
         this.centerDialogVisible = true
         this.codeCheckInfo = res.code
-        this.cs = "localhost:8080/#/faceLogin?code=" + res.code
+        this.cs = "121.5.129.126:8080/#/faceLogin?code=" + res.code
         localStorage.setItem("code", res.code)
         this.css = res.code
         setInterval(() => {
