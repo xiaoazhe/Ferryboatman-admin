@@ -95,12 +95,7 @@
             </a>
           </p>
           <p class="page-login--content-footer-copyright">
-            Copyright
-            <d2-icon name="copyright"/>
-            2018 D2 Projects 开源组织出品
-            <a href="https://github.com/FairyEver">
-              @FairyEver
-            </a>
+
           </p>
           <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
@@ -136,7 +131,7 @@
       <li>
         <a
           target="_blank"
-          :href="'http://121.5.129.126:8880/#/faceLogin?code=' + css"
+          :href="'http://127.0.0.1:8080/#/faceLogin?code=' + css"
         ><span>PC端点击这里</span></a
         >
       </li>

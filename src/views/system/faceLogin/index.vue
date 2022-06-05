@@ -6,7 +6,7 @@
         <!-- <div class="tip">没有检测到脸</div> -->
         <div class="canvas">
           <!--video用于显示媒体设备的视频流，自动播放-->
-          <video ref="vd" id="video" autoplay playsinline style="width: 200px;height: 200px"></video>
+          <video ref="vd"  id="video" width="300px" height="300px" autoplay="autoplay"></video>
           <!--描绘video截图-->
           <canvas ref="cav" id="canvas" width="200" height="200"></canvas>
         </div>
@@ -133,6 +133,8 @@
                 video.srcObject =stream
                 video.play();
                 _this.vdstate = true
+                _this.MediaStreamTrack=typeof MediaStream.stop==='function'?MediaStream:MediaStream.getTracks()[0];
+
               })
               .catch(error)
           } else if (navigator.webkitGetUserMedia) {
