@@ -133,8 +133,6 @@
                 video.srcObject =stream
                 video.play();
                 _this.vdstate = true
-                _this.MediaStreamTrack=typeof MediaStream.stop==='function'?MediaStream:MediaStream.getTracks()[0];
-
               })
               .catch(error)
           } else if (navigator.webkitGetUserMedia) {

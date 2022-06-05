@@ -131,7 +131,7 @@
       <li>
         <a
           target="_blank"
-          :href="'http://127.0.0.1:8080/#/faceLogin?code=' + css"
+          :href="'http://121.5.129.126:8880/#/faceLogin?code=' + css"
         ><span>PC端点击这里</span></a
         >
       </li>
