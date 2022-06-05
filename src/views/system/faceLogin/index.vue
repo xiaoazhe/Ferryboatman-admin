@@ -6,7 +6,7 @@
         <!-- <div class="tip">没有检测到脸</div> -->
         <div class="canvas">
           <!--video用于显示媒体设备的视频流，自动播放-->
-          <video ref="vd"  id="video" width="300px" height="300px" autoplay="autoplay"></video>
+          <video ref="vd" muted id="video" width="300px" height="300px" autoplay="autoplay"></video>
           <!--描绘video截图-->
           <canvas ref="cav" id="canvas" width="200" height="200"></canvas>
         </div>
@@ -124,7 +124,7 @@
         // 访问用户媒体设备的兼容方法
         function getUserMedia(constrains, success, error) {
           var video = _this.$refs['vd'];
-          if (navigator.mediaDevices.getUserMedia) {
+          if (navigator.mediaDevices.getUserMedia()) {
             // 最新标准API
             let myCons = {...constrains,video:true}
             navigator.mediaDevices
