@@ -16,14 +16,13 @@
         flex="dir:top main:justify cross:stretch box:justify">
         <div class="page-login--content-header">
           <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
           </p>
         </div>
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
           <!-- logo -->
-          <img class="page-login--logo" src="./image/logo@2x.png">
+<!--          <img class="page-login&#45;&#45;logo" src="./image/logo@2x.png">-->
           <!-- form -->
           <div class="page-login--form">
             <el-card shadow="never">
@@ -66,23 +65,19 @@
                   class="button-login">
                   登录
                 </el-button>
+
               </el-form>
             </el-card>
-            <p
-              class="page-login--options"
-              flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
-              <span>注册用户</span>
-            </p>
+<!--            <p-->
+<!--              class="page-login&#45;&#45;options"-->
+<!--              flex="main:justify cross:center">-->
+<!--              <span><d2-icon name="question-circle"/> 忘记密码</span>-->
+<!--              <span>注册用户</span>-->
+<!--            </p>-->
             <!-- quick login -->
             <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
+              快速登录（测试功能）
             </el-button>
-            <el-button
-              class="page-login--quick" size="default" type="info"
-              @click="faceCheck"
-            >刷脸登录</el-button
-            >
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -117,6 +112,11 @@
           </div>
         </el-col>
       </el-row>
+      <div style="text-align: center">
+        <el-button @click="faceCheck" style="text-align: center"
+        >刷脸登录</el-button>
+      </div>
+
     </el-dialog>
 
     <!-- 二维码弹层 -->
