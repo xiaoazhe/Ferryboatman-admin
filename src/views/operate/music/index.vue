@@ -74,7 +74,7 @@
           <el-input v-model="musicAdd.lrc" type="textarea" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="onSubmit">提交</el-button>
+          <el-button type="primary" size="mini" @click="onSubmit(musicAdd)">提交</el-button>
           <el-button size="mini">取消</el-button>
         </el-form-item>
       </el-form>
@@ -208,8 +208,8 @@
       this.getByPage()
     },
     methods: {
-      onSubmit () {
-        MUSIC_SAVE(this.musicAdd).then(res => {
+      onSubmit (musicAdd) {
+        MUSIC_SAVE(musicAdd).then(res => {
           if (res) {
             this.$message({ message: '操作成功', type: 'success' })
             this.drawer = false
@@ -297,8 +297,9 @@
           type: 'error'
         }).then(() => {
           MUSIC_DELETE_ID(id).then(res => {
-            this.$message.success(res.msg)
             this.getByPage()
+            this.$message.success(res.msg)
+            
           })
         })
       },

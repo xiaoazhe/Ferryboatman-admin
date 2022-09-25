@@ -17,7 +17,7 @@ export function MUSIC_PAGE(data) {
   })
 }
 // 保存
-export function MUSIC_SAVE(params) {
+export function MUSIC_SAVE(data) {
   // 接口请求
   return request({
     url: '/music/save',
