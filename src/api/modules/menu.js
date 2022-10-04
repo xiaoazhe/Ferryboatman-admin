@@ -10,11 +10,14 @@ export function MENU_FIND_NAV_TREE(params) {
   })
 }
 // 查找导航菜单树
-export function FIND_MENU_TREE() {
+export function FIND_MENU_TREE(name) {
   // 接口请求
   return request({
     url: '/menu/findMenuTree',
-    method: 'get'
+    method: 'post',
+    data: {
+      name: name
+    }
   })
 }
 // 删除

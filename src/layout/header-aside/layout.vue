@@ -11,8 +11,9 @@
           :class="{'logo-group': true, 'logo-transition': asideTransition}"
           :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}"
           flex-box="0">
-          <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          <h1>Ferry-admin</h1>
+<!--          <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">-->
+<!--          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">-->
         </router-link>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <d2-icon name="bars"/>
