@@ -226,9 +226,18 @@ export default {
         { prop: "createTime", label: "创建时间", minWidth: 120, formatter: this.dateFormat }
       ],
       pageRequest: { pageNum: 1, pageSize: 10 },
-      navPageRequest: { pageNum: 1, pageSize: 10, filterId: '' },
+      navPageRequest: {
+        pageNum: 1,
+        pageSize: 10,
+      },
       pageResult: {},
-      navPageResult: {},
+      navPageResult: {
+        content: [],
+        pageNum: "",
+        pageSize: "",
+        totalPages: "",
+        totalSize: 0,
+      },
 
       operation: false, // true:新增, false:编辑
       editDialogVisible: false, // 新增编辑界面是否显示
@@ -273,7 +282,10 @@ export default {
       })
     },
 
-    findNavPage: function () {
+    findNavPage: function (pageNum) {
+      if (pageNum !== null) {
+        this.navPageRequest.pageNum = pageNum
+      }
       if (this.dataForm) {
         this.navPageRequest.filterId = this.dataForm.id
       }
