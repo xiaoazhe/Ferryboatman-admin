@@ -65,8 +65,50 @@
         <el-form-item label="名称" prop="label">
           <el-input v-model="dataForm.navTypeName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="父标签id" prop="value">
-          <el-input v-model="dataForm.navParentTypeId" auto-complete="off"></el-input>
+        <el-form-item label="父分类" prop="typeName">
+          <el-select
+            v-model="dataForm.navParentTypeId"
+            size="small"
+            placeholder="请选择"
+            style="width: 150px"
+          >
+            <el-option
+              v-for="item in typeList"
+              v-if="item.navParentTypeId === null"
+              :key="item.id"
+              :label="item.navTypeName"
+              :value="item.id"
+            >{{ item.navTypeName }}</el-option
+            >
+          </el-select>
+        </el-form-item>
+        <el-form-item label="排序" prop="value">
+          <el-input v-model="dataForm.sort" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-if="dataForm.type !== 2" label="菜单图标" prop="icon">
+          <el-row>
+            <el-col :span="22">
+              <!-- <el-popover
+                ref="iconListPopover"
+                placement="bottom-start"
+                trigger="click"
+                popper-class="mod-menu__icon-popover">
+                <div class="mod-menu__icon-list">
+                  <el-button
+                    v-for="(item, index) in dataForm.iconList"
+                    :key="index"
+                    @click="iconActiveHandle(item)"
+                    :class="{ 'is-active': item === dataForm.icon }">
+                    <icon-svg :name="item"></icon-svg>
+                  </el-button>
+                </div>
+              </el-popover> -->
+              <el-input v-model="dataForm.icon" v-popover:iconListPopover :readonly="false" placeholder="菜单图标名称（如：fa fa-home fa-lg）" class="icon-list__input"></el-input>
+            </el-col>
+            <el-col :span="2" class="icon-list__tips">
+              <fa-icon-tooltip />
+            </el-col>
+          </el-row>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -205,13 +247,15 @@ import FmTable from "@/views/core/FMTable"
 import FmButton from "@/views/core/FMButton"
 import { format } from "@/libs/datetime"
 import TableTreeColumn from "@/views/core/TableTreeColumn";
+import FaIconTooltip from "@/components/fa-icon-tool-tip";
 import { NAV_TYPE_PAGE, NAV_TYPE_FIND_BY_ID, NAV_TYPE_DELETE_BY_ID, NAV_TYPE_SAVE, NAV_TYPE_UPDATE, NAV_TYPE_LIST
   , NAV_INFO_PAGE, NAV_INFO_SAVE, NAV_INFO_UPDATE, NAV_INFO_DELETE_BY_ID} from '@/api/modules/nav.js'
 export default {
   components: {
     FmTable,
     TableTreeColumn,
-    FmButton
+    FmButton,
+    FaIconTooltip
   },
   data () {
     return {
@@ -313,12 +357,14 @@ export default {
         navTypeName: '',
         navParentTypeId: ''
       }
+      this.queryTypeList()
     },
     // 显示编辑界面
     handleEdit: function (params) {
       this.editDialogVisible = true
       this.operation = false
       this.dataForm = Object.assign({}, params.row)
+      this.queryTypeList()
     },
 
     // 显示编辑界面
@@ -326,6 +372,7 @@ export default {
       this.navInfoEditDialogVisible = true
       this.operation = false
       this.navInfoDataForm = Object.assign({}, params.row)
+      this.queryTypeList()
     },
     // 显示新增界面
     handleAddNavInfo: function () {
