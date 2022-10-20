@@ -213,6 +213,9 @@
         <el-form-item label="跳转链接" prop="value">
           <el-input v-model="navInfoDataForm.navUrl" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="logoUrl" prop="value">
+          <el-input v-model="navInfoDataForm.navLogo" auto-complete="off"></el-input>
+        </el-form-item>
 <!--        <el-form-item label="logo" prop="value">-->
 <!--          <el-input v-model="navInfoDataForm.navLogo" auto-complete="off"></el-input>-->
 <!--        </el-form-item>-->
