@@ -34,6 +34,7 @@
     }
     background: $theme-menu-item-background-color-hover;
   }
+
   %el-menu-icon {
     i {
       display: inline-block;
@@ -68,7 +69,7 @@
   .el-menu--horizontal .el-menu .el-submenu__title:hover {
     @include theme-menu-hover-style;
   }
-  
+
   // 顶栏
   .d2-theme-header {
     // 顶栏菜单空间不足时显示的滚动控件

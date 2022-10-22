@@ -38,7 +38,7 @@
         <div
           flex-box="0"
           ref="aside"
-          :class="{'d2-theme-container-aside': false, 'd2-theme-container-transition': true}"
+          :class="{'d2-theme-container-aside': true, 'd2-theme-container-transition': asideTransition}"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideWidth,
             opacity: this.searchActive ? 0.5 : 1
