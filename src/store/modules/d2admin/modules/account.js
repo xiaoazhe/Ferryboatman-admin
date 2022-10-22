@@ -26,6 +26,7 @@ export default {
       // util.cookies.set('uuid', res.uuid)
       util.cookies.set('token', res.token)
       sessionStorage.setItem('user', username) // 保存用户到本地会话
+      util.cookies.set('userName', res.username)
       store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: res.name }, { root: true })

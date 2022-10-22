@@ -336,6 +336,7 @@ export default {
                 this.$message({ message: "操作成功", type: "success" });
                 this.dialogVisible = false;
                 this.$refs["dataForm"].resetFields();
+                this.getByPage(null);
               } else {
                 this.$message({
                   message: "操作失败, " + res.msg,
@@ -359,7 +360,7 @@ export default {
       });
     },
     uploadCover(response) {
-      this.dataForm.fileUid = response.msg;
+      this.dataForm.fileUid = response.data;
     },
   },
   mounted() {

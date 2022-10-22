@@ -38,7 +38,7 @@
         <div
           flex-box="0"
           ref="aside"
-          :class="{'d2-theme-container-aside': true, 'd2-theme-container-transition': asideTransition}"
+          :class="{'d2-theme-container-aside': false, 'd2-theme-container-transition': true}"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideWidth,
             opacity: this.searchActive ? 0.5 : 1
@@ -112,8 +112,8 @@ export default {
     return {
       // [侧边栏宽度] 正常状态
       asideWidth: '200px',
-      // [侧边栏宽度] 折叠状态
-      asideWidthCollapse: '65px'
+      // [侧边栏宽度] 折叠状态 error
+      asideWidthCollapse: '200px'
     }
   },
   computed: {

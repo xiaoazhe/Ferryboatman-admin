@@ -44,7 +44,7 @@ export default {
   watch: {
     // 折叠和展开菜单的时候销毁 better scroll
     asideCollapse (val) {
-      this.scrollDestroy()
+      // this.scrollDestroy()
       setTimeout(() => {
         this.scrollInit()
       }, 500)

@@ -48,16 +48,16 @@
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-form-item prop="code">
-                  <el-input
-                    type="text"
-                    v-model="formLogin.code"
-                    placeholder="验证码">
-                    <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
-                    </template>
-                  </el-input>
-                </el-form-item>
+<!--                <el-form-item prop="code">-->
+<!--                  <el-input-->
+<!--                    type="text"-->
+<!--                    v-model="formLogin.code"-->
+<!--                    placeholder="验证码">-->
+<!--                    <template slot="append">-->
+<!--                      <img class="login-code" src="./image/login-code.png">-->
+<!--                    </template>-->
+<!--                  </el-input>-->
+<!--                </el-form-item>-->
                 <el-button
                   size="default"
                   @click="submit"
@@ -281,6 +281,7 @@ export default {
                 if (res2.token != undefined) {
                   util.cookies.set('token', res2.token)
                   sessionStorage.setItem('user', res2.user.name) // 保存用户到本地会话
+                  util.cookies.set('userName', res.username)
                   this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
                   // 设置 vuex 用户信息
                   this.set({

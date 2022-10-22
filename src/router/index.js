@@ -77,7 +77,15 @@ router.beforeEach(async (to, from, next) => {
       // 如果访问非登录界面，且户会话信息不存在，代表未登录，则跳转到登录界面
       next({ path: '/login' })
     } else {
-      let userName = sessionStorage.getItem('user')
+      // const userName = util.cookies.get('user')
+      // let userName = sessionStorage.getItem('user')
+      const userName = util.cookies.get('userName')
+      console.log(userName)
+      // if(!userName) {
+      //   console.log(userName)
+      //   next({ path: '/login' })
+      //   // await router.push({ name: 'login' })
+      // }
       // 加载动态菜单和路由
       addDynamicMenuAndRoutes(userName, to, from)
       next();
