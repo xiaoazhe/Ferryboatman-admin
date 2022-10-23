@@ -98,6 +98,9 @@
         <el-form-item label="友情链接标题" prop="title">
           <el-input v-model="dataForm.title" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="状态  0 申请中， 1：已上线，  2：已下架" prop="title">
+          <el-input v-model="dataForm.linkStatus" auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="友情链接介绍" prop="summary">
           <el-input
             type="textarea"
@@ -291,10 +294,11 @@
           { prop: "title", label: "标题", minWidth: 120 },
           { prop: "summary", label: "简介", minWidth: 120 },
           { prop: "url", label: "友情链接URL", minWidth: 100 },
+          { prop: "linkStatus", label: "状态", minWidth: 100 },
           { prop: "clickCount", label: "点击数", minWidth: 120 },
           { prop: "sort", label: "排序", minWidth: 120 },
-          { prop: "linkStatus", label: "友链状态", minWidth: 120 },
           { prop: "email", label: "邮箱", minWidth: 120 },
+          { prop: "createTime", label: "更新时间", minWidth: 120, formatter: this.dateFormat },
           { prop: "updateTime", label: "更新时间", minWidth: 120, formatter: this.dateFormat }
         ]
         this.filterColumns = JSON.parse(JSON.stringify(this.columns));
