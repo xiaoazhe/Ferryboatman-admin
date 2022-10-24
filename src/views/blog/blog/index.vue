@@ -172,6 +172,9 @@
         <el-form-item label="作者" prop="author">
           <el-input v-model="dataForm.author"></el-input>
         </el-form-item>
+        <el-form-item label="排序sort" prop="author">
+          <el-input v-model="dataForm.sort"></el-input>
+        </el-form-item>
         <el-form-item label="内容" prop="content">
           <mavon-editor
             v-model="dataForm.content"
@@ -189,7 +192,6 @@
           :size="size"
           type="primary"
           @click.native="submitForm"
-          :loading="editLoading"
           >{{ $t("action.submit") }}</el-button
         >
       </div>
@@ -236,6 +238,7 @@ export default {
         totalPages: "",
         totalSize: 0,
       },
+      blogData: {},
       operation: false, // true:新增, false:编辑
       dialogVisible: false, // 新增编辑界面是否显示
       editLoading: false,
