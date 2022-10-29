@@ -309,7 +309,7 @@ export default {
         type: "error",
       }).then(() => {
         BLOG_DELETE_ID(id).then((res) => {
-          this.$message.success(res.msg);
+          this.$message({ message: "操作成功", type: 'success' })
           this.getByPage();
         });
       });
