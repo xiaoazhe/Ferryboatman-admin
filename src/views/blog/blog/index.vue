@@ -38,13 +38,13 @@
       <el-table-column prop="createTime" label="创建时间" sortable="custom" />
       <el-table-column prop="isOriginal" label="原创" sortable="custom">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.isOriginal === 1">是</el-tag>
+          <el-tag v-if="scope.row.isOriginal == 1">是</el-tag>
           <el-tag v-else type="info">不是</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="isPublish" label="发布" sortable="custom">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.isOriginal === 1">是</el-tag>
+          <el-tag v-if="scope.row.isPublish == 1">是</el-tag>
           <el-tag v-else type="info">不是</el-tag>
         </template>
       </el-table-column>
@@ -54,12 +54,12 @@
         width="200"
         show-overflow-tooltip
       />
-      <el-table-column
-        prop="articlesPart"
-        label="出处"
-        width="200"
-        show-overflow-tooltip
-      />
+<!--      <el-table-column-->
+<!--        prop="articlesPart"-->
+<!--        label="出处"-->
+<!--        width="200"-->
+<!--        show-overflow-tooltip-->
+<!--      />-->
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-dropdown>
@@ -68,6 +68,22 @@
               <i class="el-icon-arrow-down el-icon--right" />
             </el-button>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <el-button
+                  size="mini"
+                  type="success"
+                  @click="pushBaidu(scope.row.id)"
+                >推送百度</el-button
+                >
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <el-button
+                  size="mini"
+                  type="warning"
+                  @click="publish(scope.row.id)"
+                >发布状态</el-button
+                >
+              </el-dropdown-item>
               <el-dropdown-item>
                 <el-button
                   size="mini"
@@ -85,6 +101,7 @@
                 >
               </el-dropdown-item>
             </el-dropdown-menu>
+
           </el-dropdown>
         </template>
       </el-table-column>
@@ -208,6 +225,7 @@ import {
   BLOG_GET_BY_ID,
   BLOG_USER_PAGE,
   BLOG_USER_DELETE_ID,
+  BLOG_PUBLISH
 } from "@/api/modules/blog.js";
 import {
   GET_FILE_CONFIG,
@@ -222,6 +240,9 @@ import {
   TYPE_FIND_ALL,
   TYPE_PAGE,
 } from "@/api/modules/type.js";
+import {
+  REPTILE_PUSH_BAIDU
+} from "@/api/modules/reptile.js";
 export default {
   components: {},
   data() {
@@ -300,6 +321,19 @@ export default {
       BLOG_GET_BY_ID(id).then((res) => {
         this.dataForm = res;
       });
+    },
+    // 百度推送
+    pushBaidu(id) {
+      REPTILE_PUSH_BAIDU(id).then((res) => {
+        this.$message({ message: "推送成功", type: 'success' })
+      });
+    },
+    // 修改发布状态
+    publish(id) {
+      BLOG_PUBLISH(id).then((res) => {
+        this.$message({ message: "修改成功", type: 'success' })
+      });
+      this.getByPage();
     },
     handleDelete(id) {
       // 删除

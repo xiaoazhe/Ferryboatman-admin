@@ -131,7 +131,7 @@
       <li>
         <a
           target="_blank"
-          :href="'http://121.5.129.126:8001/#/faceLogin?code=' + css"
+          :href="'http://admin.ferryboat.top/#/faceLogin?code=' + css"
         ><span>PC端点击这里</span></a
         >
       </li>

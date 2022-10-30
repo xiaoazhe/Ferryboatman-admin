@@ -134,3 +134,12 @@ export function LABEL_UPDATE_BY_ID(data) {
     data
   })
 }
+
+// 修改发布状态
+export function BLOG_PUBLISH(data) {
+  // 接口请求
+  return request({
+    url: `/blog/publishById/${data}`,
+    method: 'get'
+  })
+}
