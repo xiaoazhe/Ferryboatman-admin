@@ -258,16 +258,18 @@ export default {
             let params = Object.assign({}, this.dataForm);
             MENU_SAVE(params).then(res => {
               this.editLoading = false;
-              if (res.code == 200) {
-                this.$message({ message: "操作成功", type: "success" });
-                this.$refs["dataForm"].resetFields();
-                this.dialogVisible = false;
-              } else {
-                this.$message({
-                  message: "操作失败, " + res.msg,
-                  type: "error"
-                });
-              }
+              this.$message({ message: "操作成功", type: "success" });
+              this.$refs["dataForm"].resetFields();
+              this.dialogVisible = false;
+
+              // if (res.code == 200) {
+              //
+              // } else {
+              //   this.$message({
+              //     message: "操作失败, " + res.msg,
+              //     type: "error"
+              //   });
+              // }
               this.findTreeData();
             });
           });
