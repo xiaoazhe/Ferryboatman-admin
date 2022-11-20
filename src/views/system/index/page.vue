@@ -19,7 +19,7 @@
           </template>
           <template v-if="item.i === '1'">
             <Col :lg="6" :md="12">
-              <VmStateOverView color="#1d8ce0" icon="fa fa-eye" title="博客收藏" :count="overview.blogCollect"></VmStateOverView>
+              <VmStateOverView color="#1d8ce0" icon="fa fa-eye" title="访问ip数" :count="overview.ipSize"></VmStateOverView>
             </Col>
           </template>
           <template v-if="item.i === '2'">
@@ -29,7 +29,7 @@
           </template>
           <template v-if="item.i === '3'">
             <Col :lg="6" :md="12">
-              <VmStateOverView color="#f60000" icon="fa fa-download" title="上传资料" :count="overview.material"></VmStateOverView>
+              <VmStateOverView color="#f60000" icon="fa fa-download" title="web博客列表访问" :count="overview.logSize"></VmStateOverView>
             </Col>
           </template>
           <template v-if="item.i === '4'">
@@ -112,10 +112,10 @@
         },
         overview:{
           blogClick: "",
-          blogCollect: "",
+          ipSize: "",
           blogList: [],
           blogSize: "",
-          material: "",
+          logSize: "",
           user:{
             avatar: "",
             name: "",

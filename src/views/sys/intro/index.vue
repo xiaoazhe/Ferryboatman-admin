@@ -6,13 +6,13 @@
         <VmStateOverView color="#41b883" icon="fa fa-user" title="博客点击" :count="overview.blogClick"></VmStateOverView>
       </Col>
       <Col :lg="6" :md="12">
-        <VmStateOverView color="#1d8ce0" icon="fa fa-eye" title="博客收藏" :count="overview.blogCollect"></VmStateOverView>
+        <VmStateOverView color="#1d8ce0" icon="fa fa-eye" title="访问ip数" :count="overview.ipSize"></VmStateOverView>
       </Col>
       <Col :lg="6" :md="12">
         <VmStateOverView color="#ffa000" icon="fa fa-pencil" title="博客数量" :count="overview.blogSize"></VmStateOverView>
       </Col>
       <Col :lg="6" :md="12">
-        <VmStateOverView color="#f60000" icon="fa fa-download" title="上传资料" :count="overview.material"></VmStateOverView>
+        <VmStateOverView color="#f60000" icon="fa fa-download" title="web博客列表访问" :count="overview.logSize"></VmStateOverView>
       </Col>
     </Row>
     <el-row :gutter="20">
@@ -95,10 +95,10 @@
       return {
         overview:{
           blogClick: "",
-          blogCollect: "",
+          ipSize: "",
           blogList: [],
           blogSize: "",
-          material: "",
+          logSize: "",
           user:{
             avatar: "",
             name: "",
