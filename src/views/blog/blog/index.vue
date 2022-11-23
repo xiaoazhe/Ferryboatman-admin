@@ -192,6 +192,12 @@
         <el-form-item label="排序sort" prop="author">
           <el-input v-model="dataForm.sort"></el-input>
         </el-form-item>
+        <el-button
+          :size="size"
+          type="primary"
+          @click.native="submitForm"
+        >{{ $t("action.submit") }}</el-button
+        >
         <el-form-item label="内容" prop="content">
           <mavon-editor
             v-model="dataForm.content"
