@@ -51,21 +51,21 @@
         width="200"
         show-overflow-tooltip
       />
-      <el-table-column
-        prop="fans"
-        label="关注数"
-        width="200"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="recommend"
-                       label="推荐"
-                       sortable="custom">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.isOriginal === 1">推荐</el-tag>
-          <el-tag v-else
-                  type="info">不推荐</el-tag>
-        </template>
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="fans"-->
+<!--        label="关注数"-->
+<!--        width="200"-->
+<!--        show-overflow-tooltip-->
+<!--      />-->
+<!--      <el-table-column prop="recommend"-->
+<!--                       label="推荐"-->
+<!--                       sortable="custom">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-tag v-if="scope.row.isOriginal === 1">推荐</el-tag>-->
+<!--          <el-tag v-else-->
+<!--                  type="info">不推荐</el-tag>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-dropdown>
@@ -109,22 +109,23 @@
                width="90%"
                :visible.sync="dialogVisible"
                :close-on-click-modal="false">
-      <el-form :model="dataForm"
+      <el-form :model="data"
                label-width="80px"
                :rules="dataFormRules"
-               ref="dataForm"
+               ref="data"
                :size="size"
                label-position="right">
         <el-form-item label="ID"
                       prop="id"
                       v-if="false">
-          <el-input v-model="dataForm.uid"
+          <el-input v-model="data.id"
                     :disabled="true"
                     auto-complete="off"></el-input>
         </el-form-item>
+
         <el-form-item label="名称"
                       prop="labelname">
-          <el-input v-model="dataForm.labelname"
+          <el-input v-model="data.labelname"
                     auto-complete="off"></el-input>
         </el-form-item>
 
@@ -168,6 +169,7 @@
           totalSize: 0,
           delivery: 1
         },
+        data:{},
         operation: false, // true:新增, false:编辑
         dialogVisible: false, // 新增编辑界面是否显示
         editLoading: false,
@@ -222,8 +224,7 @@
       handleAdd: function () {
         this.dialogVisible = true
         this.operation = true
-        this.dataForm = {
-          uid: 0,
+        this.data = {
           labelname: '',
           summary: '',
           content: ""
@@ -234,25 +235,21 @@
         this.dialogVisible = true
         this.operation = false
         LABEL_GET_BY_ID(id).then((res) => {
-          this.dataForm = res.data
+          this.data = res
         })
       },
       // 编辑
       submitForm: function () {
-        this.$refs.dataForm.validate((valid) => {
+        this.$refs.data.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.editLoading = true
-              let params = Object.assign({}, this.dataForm)
+              let params = Object.assign({}, this.data)
               LABEL_SAVE(params).then((res) => {
+                this.$message({ message: '操作成功', type: 'success' })
+                // this.$refs['data'].resetFields()
+                this.dialogVisible = false
                 this.editLoading = false
-                if (res.code == 200) {
-                  this.$message({ message: '操作成功', type: 'success' })
-                  this.dialogVisible = false
-                  this.$refs['dataForm'].resetFields()
-                } else {
-                  this.$message({ message: '操作失败, ' + res.msg, type: 'error' })
-                }
                 this.getByPage(null)
               })
             })
@@ -263,9 +260,9 @@
       dateFormat: function (row, column, cellValue, index) {
         return format(row[column.property])
       },
-      uploadCover (response) {
-        this.dataForm.fileUid = response.data;
-      },
+      // uploadCover (response) {
+      //   this.dataForm.fileUid = response.data;
+      // },
     }
   }
 </script>
