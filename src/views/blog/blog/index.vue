@@ -128,16 +128,16 @@
       :close-on-click-modal="false"
     >
       <el-form
-        :model="dataForm"
+        :model="data"
         label-width="80px"
         :rules="dataFormRules"
-        ref="dataForm"
+        ref="data"
         :size="size"
         label-position="right"
       >
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input
-            v-model="dataForm.uid"
+            v-model="data.id"
             :disabled="true"
             auto-complete="off"
           ></el-input>
@@ -150,28 +150,28 @@
             multipartFile
             :on-success="uploadCover"
           >
-            <i class="el-icon-upload" v-if="dataForm.fileUid == ''" />
-            <div class="el-upload__text" v-if="dataForm.fileUid == ''">
+            <i class="el-icon-upload" v-if="data.fileUid == ''" />
+            <div class="el-upload__text" v-if="data.fileUid == ''">
               将文件拖到此处，或
               <em>点击上传</em>
             </div>
-            <img v-else :src="dataForm.fileUid" width="360px" height="180px" />
+            <img v-else :src="data.fileUid" width="360px" height="180px" />
           </el-upload>
         </el-form-item>
 
         <el-form-item label="标题" prop="title">
-          <el-input v-model="dataForm.title" auto-complete="off"></el-input>
+          <el-input v-model="data.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="摘要" prop="summary">
           <el-input
             type="textarea"
-            v-model="dataForm.summary"
+            v-model="data.summary"
             auto-complete="off"
           ></el-input>
         </el-form-item>
         <el-form-item label="分类" prop="typeName">
           <el-select
-            v-model="dataForm.typeName"
+            v-model="data.typeName"
             size="small"
             placeholder="请选择"
             style="width: 150px"
@@ -187,10 +187,10 @@
         </el-form-item>
 
         <el-form-item label="作者" prop="author">
-          <el-input v-model="dataForm.author"></el-input>
+          <el-input v-model="data.author"></el-input>
         </el-form-item>
         <el-form-item label="排序sort" prop="author">
-          <el-input v-model="dataForm.sort"></el-input>
+          <el-input v-model="data.sort"></el-input>
         </el-form-item>
         <el-button
           :size="size"
@@ -200,7 +200,7 @@
         >
         <el-form-item label="内容" prop="content">
           <mavon-editor
-            v-model="dataForm.content"
+            v-model="data.content"
             ref="md"
             @imgAdd="imgAdd"
             @imgDel="imgDel"
@@ -265,6 +265,7 @@ export default {
         totalPages: "",
         totalSize: 0,
       },
+      data:{},
       blogData: {},
       operation: false, // true:新增, false:编辑
       dialogVisible: false, // 新增编辑界面是否显示
@@ -325,7 +326,7 @@ export default {
         this.typeName = res;
       });
       BLOG_GET_BY_ID(id).then((res) => {
-        this.dataForm = res;
+        this.data = res;
       });
     },
     // 百度推送
@@ -358,8 +359,7 @@ export default {
     handleAdd: function () {
       this.dialogVisible = true;
       this.operation = true;
-      this.dataForm = {
-        uid: 0,
+      this.data = {
         title: "",
         summary: "",
         content: "",
@@ -368,24 +368,16 @@ export default {
     },
     // 编辑
     submitForm: function () {
-      this.$refs.dataForm.validate((valid) => {
+      this.$refs.data.validate((valid) => {
         if (valid) {
           this.$confirm("确认提交吗？", "提示", {}).then(() => {
             this.editLoading = true;
-            let params = Object.assign({}, this.dataForm);
+            let params = Object.assign({}, this.data);
             BLOG_SAVE(params).then((res) => {
               this.editLoading = false;
-              if (res) {
-                this.$message({ message: "操作成功", type: "success" });
-                this.dialogVisible = false;
-                this.$refs["dataForm"].resetFields();
-                this.getByPage(null);
-              } else {
-                this.$message({
-                  message: "操作失败, " + res.msg,
-                  type: "error",
-                });
-              }
+              this.$message({ message: "操作成功", type: "success" });
+              this.dialogVisible = false;
+              this.$refs["data"].resetFields();
               this.getByPage(null);
             });
           });
@@ -403,7 +395,7 @@ export default {
       });
     },
     uploadCover(response) {
-      this.dataForm.fileUid = response.data;
+      this.data.fileUid = response.data;
     },
   },
   mounted() {
