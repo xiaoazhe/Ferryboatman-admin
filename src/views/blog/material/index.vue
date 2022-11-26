@@ -147,16 +147,16 @@
       :close-on-click-modal="false"
     >
       <el-form
-        :model="dataForm"
+        :model="data"
         label-width="80px"
         :rules="dataFormRules"
-        ref="dataForm"
+        ref="data"
         :size="size"
         label-position="right"
       >
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input
-            v-model="dataForm.uid"
+            v-model="data.id"
             :disabled="true"
             auto-complete="off"
           ></el-input>
@@ -170,36 +170,36 @@
             multipartFile
             :on-success="uploadCover"
           >
-            <i class="el-icon-upload" v-if="dataForm.fileUrl == ''" />
-            <div class="el-upload__text" v-if="dataForm.fileUrl == ''">
+            <i class="el-icon-upload" v-if="data.fileUrl == ''" />
+            <div class="el-upload__text" v-if="data.fileUrl == ''">
               将文件拖到此处，或
               <em>点击上传</em>
             </div>
-            <img v-else :src="dataForm.fileUrl" width="360px" height="180px" />
+            <img v-else :src="data.fileUrl" width="360px" height="180px" />
           </el-upload>
         </el-form-item>
         <el-form-item label="标题" prop="title">
-          <el-input v-model="dataForm.title" auto-complete="off"></el-input>
+          <el-input v-model="data.title" auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="链接" prop="url">
           <el-input
             type="textarea"
-            v-model="dataForm.url"
+            v-model="data.url"
             auto-complete="off"
           ></el-input>
         </el-form-item>
 
         <el-form-item label="提取码" prop="pwd">
-          <el-input v-model="dataForm.pwd"></el-input>
+          <el-input v-model="data.pwd"></el-input>
         </el-form-item>
 
         <el-form-item label="描述" prop="describe">
-          <el-input v-model="dataForm.describe"></el-input>
+          <el-input v-model="data.describe"></el-input>
         </el-form-item>
 
         <el-form-item label="优先级" prop="sort">
-          <el-input v-model="dataForm.sort"></el-input>
+          <el-input v-model="data.sort"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -224,11 +224,11 @@
     MATERIAL_PAGE,
     MATERIAL_SAVE,
     MATERIAL_BY_ID,
-    MATERIAL_AUDIT
+    MATERIAL_AUDIT,
+    MATERIAL_UPDATE,
+    MATERIAL_DELETE
   } from "@/api/modules/material.js";
-  import {
-    PROBLEM_DELETE_BY_ID
-  } from "@/api/modules/blog.js";
+
   export default {
     components: {},
     data () {
@@ -245,6 +245,7 @@
           totalPages: "",
           totalSize: 0
         },
+        data:{},
         operation: false, // true:新增, false:编辑
         dialogVisible: false, // 新增编辑界面是否显示
         editLoading: false,
@@ -285,8 +286,7 @@
       handleAdd: function () {
         this.dialogVisible = true
         this.operation = true
-        this.dataForm = {
-          id: 0,
+        this.data = {
           title: '',
           url: '',
           pwd: "",
@@ -302,8 +302,8 @@
           cancelButtonText: '取消',
           type: 'error'
         }).then(() => {
-          PROBLEM_DELETE_BY_ID(id).then(res => {
-            this.$message.success(res.msg)
+          MATERIAL_DELETE(id).then(res => {
+            this.$message.success('操作成功')
             this.getByPage()
           })
         })
@@ -313,25 +313,20 @@
         this.dialogVisible = true
         this.operation = false
         MATERIAL_BY_ID(id).then((res) => {
-          this.dataForm = res
+          this.data = res
         })
       },
       // 编辑
       submitForm: function () {
-        this.$refs.dataForm.validate((valid) => {
+        this.$refs.data.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.editLoading = true
-              let params = Object.assign({}, this.dataForm)
+              let params = Object.assign({}, this.data)
               MATERIAL_SAVE(params).then((res) => {
                 this.editLoading = false
-                if (res) {
-                  this.$message({ message: '操作成功', type: 'success' })
-                  this.dialogVisible = false
-                  this.$refs['dataForm'].resetFields()
-                } else {
-                  this.$message({ message: '操作失败, ' + res.msg, type: 'error' })
-                }
+                this.$message({ message: '操作成功', type: 'success' })
+                this.dialogVisible = false
                 this.getByPage(null)
               })
             })
@@ -343,7 +338,7 @@
         return format(row[column.property])
       },
       uploadCover (response) {
-        this.dataForm.fileUrl = response.msg;
+        this.data.fileUrl = response.msg;
       },
     }
   }
