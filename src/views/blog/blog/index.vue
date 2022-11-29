@@ -274,7 +274,6 @@ export default {
       // 类型列表
       typeData: [],
       typeName: {
-        id: 0,
         name: "",
         description: "",
         sort: "",
